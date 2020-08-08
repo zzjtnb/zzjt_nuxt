@@ -20,7 +20,9 @@
 <script >
 export default {
   async asyncData({ app, params, query, store, route }) {
-    let data = new Buffer(params.id, 'base64').toString(); //base64解码
+    let base64 = require('js-base64').Base64;
+    let data = base64.decode(params.id); //base64解码
+    // let data = new Buffer(params.id, 'base64').toString(); //base64解码
     // let title = data.split('\\').pop().replace(/\..+$/, '');
     let title = data.replace(/.*\\|\..*$/g, '');
     return await app.$axios.get(`/api/details`, { params: { id: params.id, flag: 'edit' } }).then((res) => {

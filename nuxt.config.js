@@ -128,7 +128,7 @@ module.exports = {
             name: "vendor",
             minChunks: 1,
             maxInitialRequests: 5,
-            minSize: 10000,
+            minSize: 30000,
             priority: 100
           },
           common: {
@@ -137,7 +137,7 @@ module.exports = {
             name: "common",
             minChunks: 3,
             maxInitialRequests: 5,
-            minSize: 10000,
+            minSize: 30000,
             priority: 60
           },
           styles: {
