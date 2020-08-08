@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*清除浮动*/
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: inline-block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  *zoom: 1;
+}
+
+a {
+  color: #ffffff;
+}
+
+/*link表示未被访问时*/
+a:link {
+  color: coral;
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(14, 160, 153);
+}
+
+a:active {
+  color: rgb(10, 204, 75);
+}
+
+/* 
+a:visited {
+  color: rgb(9, 157, 226);
+} */
+
+/* hover表示鼠标指示时 */
+/* active表示鼠标点击时 */
+/* visited表示被访问过后 */
+/**
+css 更改鼠标为手状样式
+auto                    ：标准光标  
+default                 ：标准箭头  
+pointer, hand           ：手形光标  
+wait                    ：等待光标  
+text                    ：I形光标  
+vertical-text           ：水平I形光标  
+no-drop                 ：不可拖动光标  
+not-allowed             ：无效光标  
+help                    ：帮助光标  
+all-scroll              ：三角方向标  
+move                    ：移动标  
+crosshair               ：十字标 
+ */
+a,
+i,
+span,
+button {
+  cursor: pointer;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+img {
+  /* height: auto; */
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  border-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar-thumb:horizontal {
+  /*水平滚动条的样式*/
+  width: 5px;
+  background-color: #82B1FF;
+  -webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #0ae;
+  background-image: gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+  background-color: #dddddd;
+  /*滚动条的背景颜色*/
+  border-radius: 25;
+  /*滚动条的圆角宽度*/
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  /*滚动条的宽度*/
+  height: 8px;
+  /*滚动条的高度*/
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  /*垂直滚动条的样式*/
+  height: 50px;
+  background-color: #0ae;
+  background-image: gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+
+  border-radius: 4px;
+  outline: 2px solid #fff;
+  outline-offset: -2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  /*滚动条的hover样式*/
+  height: 50px;
+  background-color: #82B1FF;
+  border-radius: 4px;
+}
