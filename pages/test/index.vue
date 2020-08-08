@@ -27,14 +27,14 @@ export default {
   //     test,
   //   };
   // },
-  async asyncData({ app }) {
-    const data = await app.$axios.get('/api/blog');
-    // console.log(data);
-    let test = data.data.data;
-    return {
-      test,
-    };
-  },
+  // async asyncData({ app }) {
+  //   const data = await app.$axios.get('/api/blog');
+  //   // console.log(data);
+  //   let test = data.data.data;
+  //   return {
+  //     test,
+  //   };
+  // },
   data() {
     return {};
   },

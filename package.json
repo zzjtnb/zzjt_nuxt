@@ -1,5 +1,5 @@
 {
-  "name": "nuxt_express",
+  "name": "zzjt_nuxt",
   "version": "1.0.0",
   "description": "My incredible Nuxt.js project",
   "author": "争逐",
@@ -24,8 +24,7 @@
     "markdown-it": "^11.0.0",
     "mavon-editor": "^2.9.0",
     "moment": "^2.27.0",
-    "nuxt": "^2.0.0",
-    "rd": "^2.0.1"
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",

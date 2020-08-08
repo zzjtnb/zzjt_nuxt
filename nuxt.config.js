@@ -115,6 +115,43 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-    }
+    },
+    /**
+     * 公共代码抽离和代码分割，避免单个js文件过大
+     */
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            chunks: "all",
+            test: /node_modules/,
+            name: "vendor",
+            minChunks: 1,
+            maxInitialRequests: 5,
+            minSize: 10000,
+            priority: 100
+          },
+          common: {
+            chunks: "all",
+            test: /[\\/]src[\\/]js[\\/]/,
+            name: "common",
+            minChunks: 3,
+            maxInitialRequests: 5,
+            minSize: 10000,
+            priority: 60
+          },
+          styles: {
+            name: "styles",
+            test: /\.(sa|sc|c)ss$/,
+            chunks: "all",
+            enforce: true
+          },
+
+        }
+      }
+    },
+    // 开启打包分析
+    // analyze: true,
+
   }
 }

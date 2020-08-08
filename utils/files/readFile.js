@@ -1,7 +1,7 @@
 const fs = require('fs')
 const fm = require('front-matter');//https://github.com/jxson/front-matter
 const md = require('markdown-it')();// https://markdown-it.docschina.org/
-function readFile(fullPath) {
+function readFile(fullPath, putPath) {
   //需要注意的是fs是异步,所以需要return new Promise
   return new Promise((resolve, reject) => {
     // 读取md文件
@@ -11,7 +11,7 @@ function readFile(fullPath) {
       } else {
         let result = md.render(data)
         // console.log('md文件读取的结果' + result)
-        fs.writeFile('database/test.html', result + "\n", (err) => {
+        fs.writeFile(putPath, result + "\n", (err) => {
           if (err) {
             reject(err)
           };
