@@ -3,91 +3,78 @@
     "name": "music",
     "path": "/music",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\music\\\\index.vue",
-    "chunkName": "pages/music/index",
-    "_name": "_ce4d588c"
+    "chunkName": "pages/music/index"
   },
   {
     "name": "software",
     "path": "/software",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\software\\\\index.vue",
-    "chunkName": "pages/software/index",
-    "_name": "_0449deae"
+    "chunkName": "pages/software/index"
   },
   {
     "name": "test",
     "path": "/test",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\test\\\\index.vue",
-    "chunkName": "pages/test/index",
-    "_name": "_37ba2863"
+    "chunkName": "pages/test/index"
   },
   {
     "name": "video",
     "path": "/video",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\video\\\\index.vue",
-    "chunkName": "pages/video/index",
-    "_name": "_920c08b8"
+    "chunkName": "pages/video/index"
   },
   {
     "name": "blog-add",
     "path": "/blog/add",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\blog\\\\add\\\\index.vue",
-    "chunkName": "pages/blog/add/index",
-    "_name": "_8299af40"
+    "chunkName": "pages/blog/add/index"
   },
   {
     "name": "user-login",
     "path": "/user/login",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\user\\\\login.vue",
-    "chunkName": "pages/user/login",
-    "_name": "_ca5ed2be"
+    "chunkName": "pages/user/login"
   },
   {
     "name": "user-register",
     "path": "/user/register",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\user\\\\register.vue",
-    "chunkName": "pages/user/register",
-    "_name": "_940c1aca"
+    "chunkName": "pages/user/register"
   },
   {
     "name": "test-test1-test2",
     "path": "/test/test1/test2",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\test\\\\test1\\\\test2\\\\index.vue",
-    "chunkName": "pages/test/test1/test2/index",
-    "_name": "_53c62ae2"
+    "chunkName": "pages/test/test1/test2/index"
   },
   {
     "name": "blog-details-id",
     "path": "/blog/details/:id?",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\blog\\\\details\\\\_id.vue",
-    "chunkName": "pages/blog/details/_id",
-    "_name": "_7bb07ac7"
+    "chunkName": "pages/blog/details/_id"
   },
   {
     "name": "blog-edit-id",
     "path": "/blog/edit/:id?",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\blog\\\\edit\\\\_id.vue",
-    "chunkName": "pages/blog/edit/_id",
-    "_name": "_066d6d71"
+    "chunkName": "pages/blog/edit/_id"
   },
   {
     "name": "lawyer-id-id",
     "path": "/lawyer/id/:id?",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\lawyer\\\\id\\\\_id.vue",
-    "chunkName": "pages/lawyer/id/_id",
-    "_name": "_a930ac44"
+    "chunkName": "pages/lawyer/id/_id"
   },
   {
     "name": "blog-id",
     "path": "/blog/:id?",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\blog\\\\_id.vue",
-    "chunkName": "pages/blog/_id",
-    "_name": "_3677230a"
+    "chunkName": "pages/blog/_id"
   },
   {
     "name": "index",
     "path": "/",
     "component": "F:\\\\Office\\\\GitHub\\\\zzjt_nuxt\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_c3c36816"
+    "chunkName": "pages/index"
   }
 ]
