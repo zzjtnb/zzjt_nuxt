@@ -154,6 +154,9 @@ module.exports = {
     },
     // 开启打包分析
     // analyze: true,
-
+  },
+  server: {
+    port: 8080, // default: 3000
+    host: 'localhost' // default: localhost
   }
 }

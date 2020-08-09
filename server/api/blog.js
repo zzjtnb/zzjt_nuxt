@@ -6,8 +6,8 @@ const sort = require('../utils/files/sort');
 const blog = require('../utils/files/blog');
 const paging = require('../utils/paging');
 //return blog related contents
-// const blogPath = "_posts/测试";
-const blogPath = "static/_posts";
+const blogPath = "_posts";
+// const blogPath = "static/_posts";
 app.get("/list", (req, res) => {
   // allow cross orign access
   res.header('Access-Control-Allow-Origin', '*');
