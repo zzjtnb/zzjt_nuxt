@@ -18,7 +18,6 @@ app.get("/list", (req, res) => {
   json.sort = {}
   json.tags = []
   json.pagination = {}
-
   let files = []
   if (!req.query.path) {
     //获取目录下所有文件
@@ -28,12 +27,10 @@ app.get("/list", (req, res) => {
     const filePath = path.join(config.allList, req.query.path)
     files = eachFile.eachDirSync(filePath)
   }
-
   if (files) {
     for (let i = 0; i < files.length; i++) {
       json.blogs.push(blog.lists(files[i]));
     }
-
     let sorts = []
     json.blogs.map(function (item) {
       // 获取分类
@@ -56,7 +53,6 @@ app.get("/list", (req, res) => {
     //分页
     json.pagination.total = json.blogs.length
     json.pagination.num = Math.ceil(json.blogs.length / Number(req.query.per_page))
-
     if (req.query) {
       const page = Number(req.query.page)
       const per_page = Number(req.query.per_page)

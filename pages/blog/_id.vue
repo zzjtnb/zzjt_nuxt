@@ -23,13 +23,12 @@
       </div>
     </div>
     <!-- 博客列表 -->
-
-    <b-container fluid="xl" align="center">
-      <b-row cols-sm="1" cols-md="2" cols-lg="3" align="center">
+    <b-container>
+      <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="3" cols-xl="4" align="center">
         <b-card-group v-for="(item,index) in blogList.blogs" :key="index">
           <b-card no-body class="shadow m-1 bg-white rounded">
             <b-link :to="`/blog/details/${item.id}`" class="position-relative">
-              <b-card-img-lazy :src="item.attributes.img||imgsrc" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220px"></b-card-img-lazy>
+              <b-card-img-lazy :src="item.attributes.img||imgsrc" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220rem" rounded></b-card-img-lazy>
               <b-card-title title-tag="span">{{item.attributes.title}}</b-card-title>
             </b-link>
             <b-card-body body-class="card-content">
@@ -99,7 +98,7 @@ export default {
       },
       token: this.$store.state.token.token,
       title: '博客',
-      imgsrc: 'https://source.unsplash.com/random/800x600',
+      imgsrc: 'https://source.unsplash.com/random/800x600?',
       isHovered: false,
       flag: -1,
     };
