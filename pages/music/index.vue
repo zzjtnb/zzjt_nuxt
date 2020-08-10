@@ -36,7 +36,6 @@ export default {
         let data = base64.decode(res.data.content); //base64解码
         // console.log(patt.exec(data));
         blog = patt.exec(data)[0];
-        // console.log(data);
       });
     return { blog };
   },

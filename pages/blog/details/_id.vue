@@ -17,7 +17,6 @@
 <script >
 export default {
   async asyncData({ app, params, query, store, route }) {
-    // console.log(params.id);
     const { data } = await app.$axios.get(`/api/details`, { params: { id: params.id } });
     return { data: data };
   },

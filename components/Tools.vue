@@ -42,7 +42,6 @@ export default {
       this.$router.push('/blog/edit/' + this.id);
     },
     deleteGists(index) {
-      console.log(index);
       this.$confirm('是否永久删除该博客?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -50,7 +49,6 @@ export default {
       }).then(() => {
         let blog = this.blogs[index];
         deleteGist(blog.id).then((result) => {
-          console.log(result);
           this.$message({
             message: '删除成功',
             type: 'success',

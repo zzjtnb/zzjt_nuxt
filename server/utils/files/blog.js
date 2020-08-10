@@ -17,7 +17,8 @@ exports.lists = function (filePath) {
   blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');
   var stats = fs.statSync(filePath);
   blog.id = base64.encodeURL(filePath)
-  blog.date = moment(stats.birthtimeMs).format('YYYY-MM-DD');
+  blog.imgArr = ['night clouds', 'Wallpapers', 'programmer', 'Nature', 'Travel', 'book', 'water', 'Film', 'Love', 'Mountain', 'Sunset', 'eruption', 'Moon', 'MacBook', '4K Backgrounds', 'page'],
+    blog.date = moment(stats.birthtimeMs).format('YYYY-MM-DD');
   return blog;
 }
 exports.singleBlog = function (filePath, flag) {

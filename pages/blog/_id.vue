@@ -24,11 +24,11 @@
     </div>
     <!-- 博客列表 -->
     <b-container>
-      <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="3" cols-xl="4" align="center">
+      <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="3" cols-xl="3" align="center">
         <b-card-group v-for="(item,index) in blogList.blogs" :key="index">
           <b-card no-body class="shadow m-1 bg-white rounded">
             <b-link :to="`/blog/details/${item.id}`" class="position-relative">
-              <b-card-img-lazy :src="item.attributes.img||imgsrc" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220rem" rounded></b-card-img-lazy>
+              <b-card-img-lazy :src="item.attributes.img||imgsrc+item.imgArr[index]" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220rem" rounded></b-card-img-lazy>
               <b-card-title title-tag="span">{{item.attributes.title}}</b-card-title>
             </b-link>
             <b-card-body body-class="card-content">
@@ -112,17 +112,14 @@ export default {
     // this.$axios({
     // 	url: "/gist/users/zzjtnb/gists?page=1&per_page=10"
     // }).then(res => {
-    // 	console.log("gist: ", res);
     // });
     // this.$axios({
     // 	url: "/frist/scripts/quote/q.php?type=detailed&symbol=TRNX"
     // }).then(res => {
-    // 	console.log("frist: ", res);
     // });
   },
   methods: {
     goDetails(id) {
-      // console.log(id);
       this.$router.push('/blog/details/' + id);
     },
     // 分页点击事件的方法
@@ -145,9 +142,7 @@ export default {
     },
     getSortList(index, path) {
       this.flag = index;
-      console.log(this.flag, index);
       this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
-        console.log('gist: ', res);
         this.blogList.blogs = res.data.blogs;
       });
     },
