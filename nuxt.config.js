@@ -79,7 +79,8 @@ module.exports = {
   bootstrapVue: {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
-    componentPlugins: ['LayoutPlugin', 'NavbarPlugin', 'ButtonPlugin', 'OverlayPlugin', 'ToastPlugin', 'CardPlugin', 'PaginationNavPlugin', 'FormPlugin', 'FormGroupPlugin', 'FormInputPlugin', 'AlertPlugin', 'LinkPlugin', 'IconsPlugin'],
+    componentPlugins: ['LayoutPlugin', 'NavbarPlugin', 'ButtonPlugin', 'OverlayPlugin', 'ToastPlugin', 'CardPlugin', 'PaginationNavPlugin', 'FormPlugin', 'FormGroupPlugin', 'FormInputPlugin', 'AlertPlugin', 'LinkPlugin', 'BadgePlugin', 'VBHoverPlugin'],
+    components: ['BIcon', 'BIconstack', 'BIconBookmarkFill', 'BIconCircle', 'BIconCircleFill', 'BIconTrashFill', 'BIconPencilSquare', 'BIconShareFill', 'BIconClockHistory',]
   },
 
 
@@ -119,44 +120,41 @@ module.exports = {
     /**
      * 公共代码抽离和代码分割，避免单个js文件过大
      */
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            chunks: "all",
-            test: /node_modules/,
-            name: "vendor",
-            minChunks: 1,
-            maxInitialRequests: 5,
-            minSize: 10000,
-            maxSize: 25000,
-            priority: 100
-          },
-          common: {
-            chunks: "all",
-            test: /[\\/]src[\\/]js[\\/]/,
-            name: "common",
-            minChunks: 3,
-            maxInitialRequests: 5,
-            minSize: 10000,
-            maxSize: 25000,
-            priority: 60
-          },
-          styles: {
-            name: "styles",
-            test: /\.(sa|sc|c)ss$/,
-            chunks: "all",
-            enforce: true
-          },
+    // optimization: {
+    //   splitChunks: {
+    //     cacheGroups: {
+    //       vendor: {
+    //         chunks: "all",
+    //         test: /node_modules/,
+    //         name: "vendor",
+    //         minChunks: 1,
+    //         maxInitialRequests: 5,
+    //         minSize: 10000,
+    //         maxSize: 25000,
+    //         priority: 100
+    //       },
+    //       common: {
+    //         chunks: "all",
+    //         test: /[\\/]src[\\/]js[\\/]/,
+    //         name: "common",
+    //         minChunks: 3,
+    //         maxInitialRequests: 5,
+    //         minSize: 10000,
+    //         maxSize: 25000,
+    //         priority: 60
+    //       },
+    //       styles: {
+    //         name: "styles",
+    //         test: /\.(sa|sc|c)ss$/,
+    //         chunks: "all",
+    //         enforce: true
+    //       },
 
-        }
-      }
-    },
+    //     }
+    //   }
+    // },
     // 开启打包分析
     // analyze: true,
-  },
-  server: {
-    port: 8080, // default: 3000
-    host: 'localhost' // default: localhost
+
   }
 }

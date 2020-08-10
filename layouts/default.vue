@@ -1,11 +1,7 @@
 <template>
   <div class="zzjt">
     <Header />
-    <div class="view" :class="{'index':!this.$store.state.common.isNotIndex}">
-      <div class="mask">
-        <nuxt />
-      </div>
-    </div>
+    <nuxt />
   </div>
 </template>
 
@@ -18,10 +14,10 @@ export default {
   mounted() {
     if (/(iPhone|iPad|iPod|iOS|Android|SymbianOS|Windows Phone)/i.test(navigator.userAgent)) {
       //移动端
-      this.$store.commit('common/SET_ISMOBILE', true);
+      this.$store.dispatch('common/SetIsMobile', true);
     } else {
       //电脑PC端
-      this.$store.commit('common/SET_ISMOBILE', false);
+      this.$store.dispatch('common/SetIsMobile', false);
     }
     // this.$myInjectedFunction("test");
   },
@@ -40,24 +36,7 @@ body,
   width: 100%;
   height: 100%;
 }
-.view {
-  // position: relative;
-  overflow: hidden;
-  cursor: default;
-  width: 100%;
-  height: 100%;
-}
 
-.view .mask {
-  margin-top: 4rem;
-}
-.index {
-  background-image: -webkit-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%), url('https://mdbootstrap.com/img/Photos/Others/architecture.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-  min-height: 100vh;
-}
 .rgba-gradient {
   /* background: linear-gradient(to 45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);
 	background: -moz-linear-gradient(45deg, rgba(42, 27, 161, 0.7), rgba(29, 210, 177, 0.7) 100%);

@@ -11,16 +11,10 @@ export const mutations = {
 }
 export const actions = {
   // nuxtServerInit is called by Nuxt.js before server-rendering every page
-  nuxtServerInit({
-    commit
-  }, {
-    app
-  }) {
-    commit('SET_token', app.$cookies.get('TOKEN_KEY'))
+  nuxtServerInit({ commit }, { app }) {
+    commit('SET_TOKEN', app.$cookies.get('TOKEN_KEY'))
   },
-  Cancellation({
-    commit
-  }) {
+  Cancellation({ commit }) {
     commit('REMOVE_TOKEN')
     location.reload();
   },

@@ -16,7 +16,7 @@ exports.lists = function (filePath) {
   // blog.body = content.body;
   blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');
   var stats = fs.statSync(filePath);
-  blog.id = base64.encode(filePath).toString()
+  blog.id = base64.encodeURL(filePath)
   blog.date = moment(stats.birthtimeMs).format('YYYY-MM-DD');
   return blog;
 }

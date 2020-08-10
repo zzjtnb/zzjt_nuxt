@@ -19,21 +19,21 @@
 }
 
 a {
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 /*link表示未被访问时*/
 a:link {
-  color: coral;
+  /* color: coral; */
   text-decoration: none;
 }
 
 a:hover {
-  color: rgb(14, 160, 153);
+  /* color: rgb(14, 160, 153); */
 }
 
 a:active {
-  color: rgb(10, 204, 75);
+  /* color: rgb(10, 204, 75); */
 }
 
 /* 

@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <header>
-    <b-navbar toggleable="lg" :fixed="isFixed" :class="{'top-nav-collapse':top_nav_collapse,'isNotIndex':this.$store.state.common.isNotIndex}" type="dark">
+    <b-navbar toggleable="lg" :fixed="this.$store.state.common.isFixed" :class="{'top-nav-collapse':top_nav_collapse,'isNotIndex':!this.$store.state.common.isIndex}" type="dark">
       <div class="container">
         <b-navbar-brand class="site-logo">
           <img src="../assets/images/header/logo-light.png" alt srcset />
@@ -47,7 +47,6 @@
 export default {
   data() {
     return {
-      isFixed: 'top',
       top_nav_collapse: false,
       path: this.$route.path,
     };
@@ -58,7 +57,7 @@ export default {
     },
   },
   mounted() {
-    // console.log(this.$store.state.common.isNotIndex);
+    // console.log(this.$store.state.common.isIndex);
     //首先，在mounted钩子window添加一个滚动滚动监听事件
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -67,11 +66,13 @@ export default {
     handleScroll() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
       let offsetHeight = document.querySelector('header').offsetHeight;
-      // console.log("scrollTop:" + scrollTop + "," + "offsetHeight:" + offsetHeight);
+      console.log('scrollTop:' + scrollTop + ',' + 'offsetHeight:' + offsetHeight);
       //设置背景颜色的透明读
       if (scrollTop > offsetHeight) {
+        this.$store.dispatch('common/SetIsFixed', 'top');
         this.top_nav_collapse = true;
       } else {
+        this.$store.dispatch('common/SetIsFixed', '');
         this.top_nav_collapse = false;
       }
     },

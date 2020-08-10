@@ -1,12 +1,15 @@
 <!--  -->
 <template>
   <div class="container">
+    <!-- 页面使用，不支持ssr，需要用client-only包裹，低版本是no-ssr标签，article_content为接口获取的markdown内容，想看配置请查看文档 -->
+    <!-- <mavon-editor defaultOpen="preview" v-html="handbook" />
+    <div class="mavonEditor">
+      <no-ssr></no-ssr>
+    </div>-->
     <div class="markdown-body">
-      <!-- 页面使用，不支持ssr，需要用client-only包裹，低版本是no-ssr标签，article_content为接口获取的markdown内容，想看配置请查看文档 -->
       <client-only>
         <mavon-editor v-model="data.body" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :ishljs="true" codeStyle="agate" />
       </client-only>
-      <!-- {{data}} -->
     </div>
   </div>
 </template>
