@@ -29,9 +29,10 @@ async function start() {
   // Give nuxt middleware to express
   app.use(nuxt.render)
   // Listen the server
-  app.listen(80)
+
+  app.listen(8080)
   consola.ready({
-    message: `Server listening on :${80}`,
+    message: `Server listening on :${8080}`,
     badge: true
   })
   // app.listen(port, host)
