@@ -163,7 +163,9 @@ header {
   transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 .isNotIndex {
-  background-color: #607d8b;
+  background: #485563; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #29323c, #485563); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .navbar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
