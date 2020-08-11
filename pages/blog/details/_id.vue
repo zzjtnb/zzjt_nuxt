@@ -16,9 +16,13 @@
 
 <script >
 export default {
-  async asyncData({ app, params, query, store, route }) {
-    const { data } = await app.$axios.get(`/api/details`, { params: { id: params.id } });
-    return { data: data };
+  async asyncData({ app, params, query, store, route, error }) {
+    if (error) {
+      error({ statusCode: 404, message: 'Post not found sdfsdfdsf' });
+    } else {
+      const { data } = await app.$axios.get(`/api/details`, { params: { id: params.id } });
+      return { data: data };
+    }
   },
   data() {
     return {};

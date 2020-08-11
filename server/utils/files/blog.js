@@ -24,31 +24,52 @@ exports.lists = function (filePath) {
   return blog;
 }
 exports.singleBlog = function (filePath, flag) {
-  if (!flag) {
-    return fm(fs.readFileSync(base64.decode(filePath), "utf8"));
-  } else {
-    return fs.readFileSync(base64.decode(filePath), "utf8");
-  }
-}
-exports.delete = async function (filePath) {
-  let json = {
-    status: 404,
-    msg: "删除失败,请求的数据不正确"
-  }
+  let json = { stats: 404, msg: "请求的数据不存在" }
   let path = base64.decode(filePath)
   if (fs.existsSync(path)) {
-    try {
-      fs.unlinkSync(path)
-      json.status = 200
-      json.msg = "删除成功"
-      return json
-    } catch (error) {
-      return json
+    if (!flag) {
+      return fm(fs.readFileSync(path, "utf8"));
+    } else {
+      return fs.readFileSync(path, "utf8");
     }
   } else {
     return json
   }
 }
+exports.delete = function (filePath) {
+  let json = { stats: 400, msg: "删除失败,请求的数据不正确" }
+  let path = base64.decode(filePath)
+  if (fs.existsSync(path)) {
+    fs.unlinkSync(path)
+    json.stats = 200
+    json.msg = "删除成功"
+    return json
+  } else {
+    return json
+  }
+}
+exports.editBlog = function (data) {
+  // http://localhost:3000/blog/edit/X3Bvc3RzXOWQjuerr1w0IGNvcHkubWQ
+  let json = { stats: 200, msg: "保存成功" }
+  let oldPath = base64.decode(data.id)
+  // let commonPath = oldPath.match(/.*\\/g)[0]
+  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name + '.md'
+  let content = base64.decode(data.file.content)
+  if (fs.existsSync(oldPath)) {
+    if (oldPath == newPath) {
+      fs.writeFileSync(oldPath, content, 'utf8')
+      return json
+    } else {
+      fs.renameSync(oldPath, newPath)
+      fs.writeFileSync(newPath, content)
+      return json
+    }
+  } else {
+    fs.writeFileSync(oldPath, content)
+    return json
+  }
+}
+
 exports.tags = function (filePath) {
   var tags = [];
   var content = fm(fs.readFileSync(filePath, "utf8"));

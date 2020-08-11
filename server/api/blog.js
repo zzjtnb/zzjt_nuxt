@@ -7,11 +7,9 @@ const blog = require('../utils/files/blog');
 const paging = require('../utils/paging');
 const repeatNum = require('../utils/repeatNum');
 var config = require("../config");
-//return blog related contents
+let errMsg = { stats: 404, msg: "请求的数据不正确" }
+
 app.get("/list", (req, res) => {
-  // allow cross orign access
-  res.header('Access-Control-Allow-Origin', '*');
-  // result to be returned
   let json = {};
   json.blogs = [];
   // json.sort = sort.sortList(config.allList)
@@ -56,36 +54,46 @@ app.get("/list", (req, res) => {
     //分页
     json.pagination.total = json.blogs.length
     json.pagination.num = Math.ceil(json.blogs.length / Number(req.query.per_page))
-    if (req.query) {
+    if (!isNaN(req.query.page)) {
       const page = Number(req.query.page)
       const per_page = Number(req.query.per_page)
       json.blogs = paging.pagination(page, per_page, json.blogs)
       if (json.blogs.length != 0) {
-        res.json(json);
+        res.status(200).json(json);
       } else {
-        res.json({ msg: "请求的数据不正确" })
+        res.status(404).json(errMsg)
       }
+    } else {
+      res.status(404).json(errMsg)
     }
   } else {
-    // res.status(400).json({ msg: "请求的数据不正确" })
-    res.json({ msg: "请求的数据不正确" })
+    res.status(404).json(errMsg)
   }
-
 });
 app.get("/details", (req, res) => {
-  // allow cross orign access
-  res.header('Access-Control-Allow-Origin', '*');
   const json = blog.singleBlog(req.query.id, req.query.flag)
-  res.json(json);
+  if (json.stats == 404) {
+    res.status(404).json(json);
+  } else {
+    res.status(200).json(json);
+  }
 });
-app.get("/delete", (req, res) => {
-  // allow cross orign access
-  res.header('Access-Control-Allow-Origin', '*');
-  let data = blog.delete(req.query.id)
-  data.then((data) => {
-    res.json(data);
-  })
-  // let data = { status: 200, msg: '成功' }
-  // res.json(data);
+app.delete("/delete", (req, res) => {
+  let json = blog.delete(req.query.id)
+  if (json.stats == 200) {
+    res.status(200).json(json);
+  } else {
+    res.status(404).json(errMsg)
+  }
+
+  // res.json({ stats: 200, msg: "hhh" })
+});
+app.put("/edit", (req, res) => {
+  let json = blog.editBlog(req.body.data)
+  if (json.stats == 200) {
+    res.status(200).json(json)
+  } else {
+    res.status(404).json(errMsg)
+  }
 });
 module.exports = app;

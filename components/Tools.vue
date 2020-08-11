@@ -51,8 +51,9 @@ export default {
         })
         .then((value) => {
           if (value == true) {
-            this.$axios.$get(`/api/delete`, { params: { id: this.id } }).then((res) => {
-              if (res.status == 200) {
+            this.$axios.$delete('/api/delete', { params: { id: this.id } }).then((res) => {
+              console.log(res);
+              if (res.stats == 200) {
                 this.$bvToast.toast(res.msg, {
                   title: '提示',
                   variant: 'success',

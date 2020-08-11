@@ -1,16 +1,13 @@
-export default function ({ $axios }, inject) {
-  // Create a custom axios instance
-  const api = $axios.create({
-    headers: {
-      common: {
-        Accept: 'text/plain, */*'
-      }
+export default function ({ $axios, error }) {
+  $axios.onError(e => {
+    if (e.response.status === 403) {
+      error({ statusCode: 403, message: "forbidden" })
+    }
+    if (e.response.status === 404) {
+      error({ statusCode: 404, message: "not found" })
+    }
+    if (e.response.status === 500) {
+      error({ statusCode: 500, message: "server error" })
     }
   })
-
-  // Set baseURL to something different
-  // api.setBaseURL('https://my_api.com')
-
-  // Inject to context as $api
-  inject('api', api)
 }
