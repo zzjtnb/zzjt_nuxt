@@ -8,7 +8,7 @@ export const state = () => ({
   query: {
     pageNum: 1,
     per_page: 16,
-  }
+  },
 })
 // 更改 Vuex 的 store 中的状态的唯一方法是提交 mutation
 export const mutations = {
@@ -27,7 +27,7 @@ export const mutations = {
   SET_QUERY_PAGE_NUM: (state, value) => {
     // state.query = JSON.parse(JSON.stringify(value));
     state.query.pageNum = value
-  }
+  },
 }
 export const actions = {
   SetIsFixed({ commit }, value) {

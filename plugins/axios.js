@@ -9,12 +9,12 @@
 export default function (app) {
   let axios = app.$axios;
   // let token = app.store.state.token.token;
-  let token = ''
+  let token = app.$cookies.get('TOKEN_KEY')
   // request拦截器，我这里设置了一个token，当然你可以不要
-  if (token) {
-    axios.setToken(token);
-  };
-  axios.onRequest(config => {
-    // console.log(config);
-  })
+  // if (token) {
+  //   axios.setToken(token);
+  // };
+  // axios.onRequest(config => {
+  //   // console.log(config);
+  // })
 }

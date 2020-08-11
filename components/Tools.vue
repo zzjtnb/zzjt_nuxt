@@ -8,13 +8,15 @@
         <b-icon stacked icon="circle" variant="white"></b-icon>
       </b-iconstack>分享
     </b-button>
-    <b-button size="sm" class="mr-2" pill variant="success" @click="editBlog(id)" v-if="token">
+    <b-button size="sm" class="mr-2" pill variant="success" @click="editBlog(id)" v-if="this.$cookies.get('TOKEN_KEY')">
       <b-icon icon="pencil-square" aria-hidden="true"></b-icon>编辑
     </b-button>
-    <b-button size="sm" class="mr-2" pill variant="danger" @click="deleteGists(id)" v-if="token">
+    <b-button size="sm" class="mr-2" pill variant="danger" @click="deleteGists(index)" v-if="this.$cookies.get('TOKEN_KEY')">
       <b-icon icon="trash-fill" aria-hidden="true"></b-icon>删除
     </b-button>
-    <!-- {{id,index}} -->
+    <!-- {{index}} -->
+    <!-- class="position-fixed fixed-top m-0 rounded-0 text-center"
+    style="z-index: 2000;"-->
   </div>
 </template>
 
@@ -26,36 +28,51 @@ export default {
   },
   data() {
     return {
-      token: this.$store.state.token.token,
+      token: this.$cookies.get('TOKEN_KEY'),
     };
   },
   mounted() {},
   methods: {
-    editBlog(index) {
-      if (!this.token) {
-        this.$message({
-          message: '请绑定有效的Token',
-          type: 'warning',
-        });
-        return;
-      }
+    editBlog() {
       this.$router.push('/blog/edit/' + this.id);
     },
     deleteGists(index) {
-      this.$confirm('是否永久删除该博客?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        let blog = this.blogs[index];
-        deleteGist(blog.id).then((result) => {
-          this.$message({
-            message: '删除成功',
-            type: 'success',
-          });
-          this.blogs.splice(index, 1);
+      this.$bvModal
+        .msgBoxConfirm('是否永久删除该博客?', {
+          title: '请确认',
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'danger',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value == true) {
+            this.$axios.$get(`/api/delete`, { params: { id: this.id } }).then((res) => {
+              if (res.status == 200) {
+                this.$bvToast.toast(res.msg, {
+                  title: '提示',
+                  variant: 'success',
+                  solid: true,
+                });
+                // getChildValue是在父组件v-on:click='getChildValue'(@getChildValue)监听的方法
+                // 第二个参数this.getChildValue是需要传的值
+                this.$emit('getChildValue', index);
+              } else {
+                // this.$store.commit('common/SET_ALERT', this.alert);
+                this.$bvToast.toast(res.msg, {
+                  title: '提示',
+                  variant: 'warning',
+                  solid: true,
+                  // noAutoHide: true,
+                });
+              }
+            });
+          }
         });
-      });
     },
   },
   components: {},

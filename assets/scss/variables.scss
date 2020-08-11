@@ -1,3 +1,20 @@
 $white: #ffffff !default;
 $clearChll:#1e90ff !default;
 $transparent:transparent !default;
+.headerdown{
+  min-width: 0;
+  width: 4.5rem;
+  padding: 0;
+  text-align: center;
+}
+.dropdown-item{
+  padding: 0.2rem;
+}
+.dropdown-item:hover{
+  background: #607d8b;
+}
+.actives{
+  // padding: 0;
+  text-align: center;
+  background: #808080d1;
+}

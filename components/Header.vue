@@ -6,9 +6,14 @@
         <b-navbar-brand class="site-logo">
           <img src="../assets/images/header/logo-light.png" alt srcset />
         </b-navbar-brand>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-navbar-toggle target="nav-collapse">
+          <template v-slot:default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
+          <b-navbar-nav align="center" fill>
             <b-nav-item to="/" exact exact-active-class="active">首页</b-nav-item>
             <b-nav-item to="/blog/1" exact exact-active-class="active">编程</b-nav-item>
             <b-nav-item to="/music" exact exact-active-class="active">音乐</b-nav-item>
@@ -17,25 +22,23 @@
             <b-nav-item to="/test" exact exact-active-class="active">测试</b-nav-item>
           </b-navbar-nav>
           <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
+          <!-- space-around -->
+          <b-navbar-nav class="ml-auto" justified>
+            <b-nav-item-dropdown text="语言" menu-class="headerdown">
+              <b-dropdown-item active-class="actives">EN</b-dropdown-item>
+              <b-dropdown-item active-class="actives">ZH</b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item-dropdown text="用户" menu-class="headerdown" v-if="!this.$cookies.get('TOKEN_KEY')">
+              <b-dropdown-item to="/user/login" active-class="actives">登录</b-dropdown-item>
+              <b-dropdown-item to="/user/register" active-class="actives">注册</b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item-dropdown text="用户" menu-class="headerdown" v-else>
+              <b-dropdown-item to="/user/account">个人中心</b-dropdown-item>
+              <b-dropdown-item @click="cancellation()">注销</b-dropdown-item>
+            </b-nav-item-dropdown>
             <b-nav-form inline>
-              <div class="md-form my-0">
-                <b-form-input type="text" placeholder="Search" aria-label="Search" size="sm" class="mr-2"></b-form-input>
-              </div>
+              <b-form-input type="search" placeholder="输入关键词，回车..." class="searchInput" debounce="200" v-model="searchValue" @keyup.enter="search($event)"></b-form-input>
             </b-nav-form>
-            <b-nav-item-dropdown text="语言" menu-class="w-100">
-              <b-dropdown-item to="#" exact exact-active-class="active">EN</b-dropdown-item>
-              <b-dropdown-item to="#" exact exact-active-class="active">ZH</b-dropdown-item>
-            </b-nav-item-dropdown>
-
-            <b-nav-item-dropdown menu-class="w-100">
-              <!-- Using 'button-content' slot -->
-              <template v-slot:button-content>
-                <em>用户</em>
-              </template>
-              <b-dropdown-item to="/user/login" exact exact-active-class="active">登录</b-dropdown-item>
-              <b-dropdown-item to="/user/register" exact exact-active-class="active">注册</b-dropdown-item>
-            </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
       </div>
@@ -49,6 +52,7 @@ export default {
     return {
       top_nav_collapse: false,
       path: this.$route.path,
+      searchValue: '',
     };
   },
   watch: {
@@ -75,6 +79,29 @@ export default {
         this.top_nav_collapse = false;
       }
     },
+    search(event) {
+      console.log(1);
+      let data = event.target.value;
+      this.$router.push({
+        path: `/blog/1`,
+        query: { query: data },
+        params: { id: pageNum, per_page: this.query.per_page },
+      });
+      // this.$store.dispatch('SetSearchValue', data);
+      // if (this.$route.path == '/search') {
+      //   this.onRefresh();
+      // } else {
+      //   this.$router.push('/blog/1');
+      // }
+    },
+    cancellation() {
+      this.$cookies.remove('TOKEN_KEY');
+      if (this.$route.path == '/') {
+        location.reload();
+      } else {
+        this.$router.replace({ path: '/' });
+      }
+    },
   },
   components: {},
   //由于是在整个window中添加的事件，所以要在页面离开时摧毁掉，否则会报错
@@ -90,7 +117,8 @@ header {
   // height: 4rem;
 }
 .site-logo img {
-  height: 2rem;
+  width: 3rem;
+  height: 3rem;
 }
 /**logo扫光效果CSS**/
 .site-logo {
@@ -159,34 +187,57 @@ header {
 .top-nav-collapse {
   padding: 5px 0;
   background: #9542425e;
-  // background-image: linear-gradient(-225deg, #69eacb 0%, #eaccf8 48%, #6654f1 100%);
   transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
 }
 .isNotIndex {
-  background: #485563; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #29323c, #485563); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #485563;
+  background: -webkit-linear-gradient(to right, #29323c, #485563);
+  background: linear-gradient(to right, #29323c, #485563);
 }
 .navbar {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   font-weight: 300;
 }
-.md-form {
-  position: relative;
+.navbar-nav {
+  flex-direction: initial;
 }
-.md-form input[type='text'] {
+
+.searchInput {
   background-image: none;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   border: none;
   border-bottom: 1px solid #fff;
   border-radius: 0;
   background-color: transparent;
-  padding: 0.3rem 0 0.55rem;
   color: #fff;
-  margin: 0 5px 1px 8px;
 }
-.md-form input[type='text']:focus:not([readonly]) {
-  box-shadow: 0 1px 0 0 #4285f4;
-  border-bottom: 1px solid #4285f4;
+input[type='search']:focus:not([readonly]) {
+  box-shadow: 0 0 0 0 #8ff442;
+  border-bottom: 1px solid #8ff442;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  background: url('../assets/images/x.png') no-repeat;
+  background-size: contain;
+}
+input::placeholder {
+  color: #ffffffb0;
+  font-size: 0.9rem;
+}
+.dropdown-item.actives,
+.dropdown-item:actives {
+  background-image: linear-gradient(45deg, #fbda61 0%, #ff5acd 100%);
+}
+.actives {
+  background-image: linear-gradient(45deg, #fbda61 0%, #ff5acd 100%);
+}
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-image: linear-gradient(45deg, #fbda61 0%, #ff5acd 100%);
 }
 </style>

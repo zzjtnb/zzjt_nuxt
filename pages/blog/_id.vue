@@ -45,7 +45,7 @@
                   </span>
                 </b-link>
               </div>
-              <Tools :id="item.id" :index="index"></Tools>
+              <Tools :id="item.id" :index="index" @getChildValue="getValue"></Tools>
             </b-card-body>
             <b-card-footer class="bg-white p-1" v-if="item.attributes.tags">
               <b-button size="sm" class="mr-2" pill variant="success" v-for="(tags,index) in item.attributes.tags" :key="index">{{tags}}</b-button>
@@ -89,14 +89,9 @@ export default {
     });
     return { blogList };
   },
-  middleware: ['cookie'],
   data() {
     return {
-      query: {
-        pageNum: this.$store.state.common.query.pageNum,
-        per_page: this.$store.state.common.query.per_page,
-      },
-      token: this.$store.state.token.token,
+      token: this.$cookies.get('TOKEN_KEY'),
       title: '博客',
       imgsrc: 'https://source.unsplash.com/random/800x600?',
       isHovered: false,
@@ -108,34 +103,18 @@ export default {
       title: this.title,
     };
   },
-  mounted() {
-    // this.$axios({
-    // 	url: "/gist/users/zzjtnb/gists?page=1&per_page=10"
-    // }).then(res => {
-    // });
-    // this.$axios({
-    // 	url: "/frist/scripts/quote/q.php?type=detailed&symbol=TRNX"
-    // }).then(res => {
-    // });
-  },
+  mounted() {},
   methods: {
     goDetails(id) {
       this.$router.push('/blog/details/' + id);
     },
     // 分页点击事件的方法
     pageChange(pageNum) {
-      this.query.pageNum = pageNum;
-      // this.$store.commit('common/SET_QUERY', this.query);
-      this.$store.dispatch('common/SetQueryPageNumber', this.query.pageNum);
+      // console.log(JSON.parse(JSON.stringify(pageNum)));
+      // this.$store.dispatch('common/SetQueryPageNumber', pageNum);
     },
     linkGen(pageNum) {
-      // return {
-      //   path: `/blog/${pageNum}`,
-      //   // query: { query: this.query },
-      //   name: 'blog-id',
-      //   params: { id: pageNum, per_page: this.query.per_page },
-      // };
-      return `/blog/${pageNum}`;
+      return { path: `/blog/${pageNum}` };
     },
     handleHover(hovered) {
       this.isHovered = hovered;
@@ -145,6 +124,10 @@ export default {
       this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
         this.blogList.blogs = res.data.blogs;
       });
+    },
+    getValue(index) {
+      // index就是子组件传过来的值
+      this.blogList.blogs.splice(index, 1);
     },
   },
   components: {

@@ -1,6 +1,5 @@
 export default function ({ store, app }) {
   app.router.beforeEach((to, from, next) => {
-    // console.log(store.state.common.isIndex);
     if (to.path == "/") {
       store.dispatch('common/SetIsIndex', true)
       store.dispatch('common/SetIsFixed', 'top')

@@ -49,7 +49,10 @@ app.get("/list", (req, res) => {
     // 标签去重
     json.tags = [...new Set(json.tags)]
     //博客排序
-    json.blogs.sort((b, a) => a.date.localeCompare(b.date));
+    json.blogs = json.blogs.sort((b, a) => {
+      return a.date.localeCompare(b.date, 'zh-Hans-CN');
+    });
+    // json.blogs.sort((b, a) => a.date.localeCompare(b.date, 'zh'));
     //分页
     json.pagination.total = json.blogs.length
     json.pagination.num = Math.ceil(json.blogs.length / Number(req.query.per_page))
@@ -74,5 +77,15 @@ app.get("/details", (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   const json = blog.singleBlog(req.query.id, req.query.flag)
   res.json(json);
+});
+app.get("/delete", (req, res) => {
+  // allow cross orign access
+  res.header('Access-Control-Allow-Origin', '*');
+  let data = blog.delete(req.query.id)
+  data.then((data) => {
+    res.json(data);
+  })
+  // let data = { status: 200, msg: '成功' }
+  // res.json(data);
 });
 module.exports = app;

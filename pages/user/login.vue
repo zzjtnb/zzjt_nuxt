@@ -3,7 +3,7 @@
   <div>
     <b-form @submit="onSubmit" @reset="onReset" v-if="show">
       <b-form-group id="input-group-1" label="token address:" label-for="input-1" description="We'll never share your token with anyone else.">
-        <b-form-input id="input-1" v-model="form.token" type="text" required placeholder="Enter token"></b-form-input>
+        <b-form-input id="input-1" v-model="form.token" type="password" required placeholder="Enter token"></b-form-input>
       </b-form-group>
 
       <b-button type="submit" variant="primary">Submit</b-button>
@@ -35,13 +35,16 @@ export default {
       }).then((res) => {
         if (res.status == 200) {
           this.$cookies.set('TOKEN_KEY', this.form.token, {
-            path: '/',
-            maxAge: 60 * 60 * 24 * 7,
+            maxAge: 60 * 60 * 24,
           });
-          this.$store.commit('token/SET_TOKEN', this.form.token);
+          this.$bvToast.toast('登陆成功', {
+            title: '提示',
+            variant: 'success',
+            solid: true,
+          });
+          this.$router.replace({ path: '/' });
         }
       });
-      // this.$store.dispatch("Authentication", this.form.token);
     },
     onReset(evt) {
       evt.preventDefault();
