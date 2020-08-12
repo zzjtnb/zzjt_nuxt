@@ -25,20 +25,21 @@ export default {
     let base64 = require('js-base64').Base64;
     let data = base64.decode(params.id); //base64解码
     let title = data.replace(/.*\\|\..*$/g, '');
-    if (error) {
-      error({ statusCode: 404, message: 'Post not found sdfsdfdsf' });
-    } else {
-      return await app.$axios.$get('/api/details', { params: { id: params.id, flag: 'edit' } }).then((res) => {
+    return await app.$axios
+      .$get('/api/details', { params: { id: params.id, flag: 'edit' } })
+      .then((res) => {
         let content = res.data;
         return { content: content, title: title };
+      })
+      .catch((e) => {
+        error({ statusCode: 404, message: 'Post not found' });
       });
-    }
   },
   data() {
     return {
       form: {
-        title: this.title,
-        content: this.content,
+        title: '',
+        content: '',
       },
       show: true,
     };

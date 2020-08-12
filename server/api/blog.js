@@ -96,4 +96,13 @@ app.put("/edit", (req, res) => {
     res.status(404).json(errMsg)
   }
 });
+app.put("/add", (req, res) => {
+  let json = blog.addBlog(req.body.data)
+  console.log(json);
+  if (json.stats == 200) {
+    res.status(200).json(json)
+  } else {
+    res.status(404).json(json)
+  }
+});
 module.exports = app;

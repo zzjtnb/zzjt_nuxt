@@ -6,7 +6,7 @@ const base64 = require('js-base64').Base64;
 moment.locale('zh-cn'); // zh-
 // 所有的选项列表（默认情况下）
 // const md = require('markdown-it')('zero');
-
+const config = require("../../config");
 
 exports.lists = function (filePath) {
   var blog = {};
@@ -66,6 +66,46 @@ exports.editBlog = function (data) {
     }
   } else {
     fs.writeFileSync(oldPath, content)
+    return json
+  }
+}
+exports.addBlog = function (data) {
+  let json = { stats: 200, msg: "保存成功" }
+  let content = base64.decode(data.file.content)
+  let name = data.file.name + '.md'
+  let categories = fm(content).attributes.categories
+  let dirPath = ''
+  if (categories) {
+    dirPath = path.join(config.allList, categories)
+  } else {
+    dirPath = config.addDir
+  }
+
+  let fullPath = path.join(dirPath, name)
+  if (fs.existsSync(dirPath)) {
+    const stats = fs.statSync(dirPath);
+    if (stats.isFile()) {
+      let bak = dirPath + '.bak'
+      fs.renameSync(dirPath, bak)
+      console.log(bak);
+      fs.renameSync(bak, config.backup + categories + '.bak')
+      fs.mkdirSync(dirPath)
+      fs.writeFileSync(fullPath, content, 'utf8')
+      return json
+    }
+    if (stats.isDirectory()) {
+      if (fs.existsSync(fullPath)) {
+        json.stats = 404
+        json.msg = '保存失败,该路径下存在同名文件'
+        return json
+      } else {
+        fs.writeFileSync(fullPath, content, 'utf8')
+        return json
+      }
+    }
+  } else {
+    fs.mkdirSync(dirPath)
+    fs.writeFileSync(path.join(dirPath, name), content, 'utf8')
     return json
   }
 }

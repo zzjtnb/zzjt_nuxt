@@ -30,6 +30,7 @@ module.exports = {
   plugins: [
     "~/plugins/axios",
     '~/plugins/untis',
+    '~plugins/filters', // 全局过滤器
     '~plugins/check-before-each.js', // 全局路由守卫插件
     { src: '@/plugins/vue-mavon-editor', ssr: false },
     { src: '~/plugins/vue-inject', ssr: false },

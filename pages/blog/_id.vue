@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!data.msg" style="height: 1500px;">
+  <div v-if="!allBlog.msg" style="height: 1500px;">
     <!-- 博客分类 -->
     <div class="container rounded shadow-lg text-center mt-3 mb-3 p-3">
       <div class="sort-title mb-2">
@@ -13,7 +13,7 @@
           tag="a"
           :class="{'chip-active':flag==index}"
           class="shadow rounded mr-2 chip"
-          v-for="(value,item,index) in data.sort"
+          v-for="(value,item,index) in allBlog.sort"
           :key="index"
           @click="getSortList(index,item)"
         >
@@ -25,7 +25,7 @@
     <!-- 博客列表 -->
     <b-container>
       <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="3" cols-xl="3" align="center">
-        <b-card-group v-for="(item,index) in data.blogs" :key="index">
+        <b-card-group v-for="(item,index) in allBlog.blogs" :key="index">
           <b-card no-body class="shadow m-1 bg-white rounded">
             <b-link :to="`/blog/details/${item.id}`" class="position-relative">
               <b-card-img-lazy :src="item.attributes.img||imgsrc+item.imgArr[index]" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220rem" rounded></b-card-img-lazy>
@@ -55,9 +55,9 @@
       </b-row>
     </b-container>
     <!-- 分页 -->
-    <div class="overflow-auto" v-if="data.pagination!=undefined">
+    <div class="overflow-auto" v-if="allBlog.pagination!=undefined">
       <b-pagination-nav
-        :number-of-pages="data.pagination.num"
+        :number-of-pages="allBlog.pagination.num"
         pills
         size="lg"
         first-text="⏮"
@@ -67,13 +67,13 @@
         align="center"
         @change="pageChange"
         :link-gen="linkGen"
-        v-if="data.pagination.num>1"
+        v-if="allBlog.pagination.num>1"
       ></b-pagination-nav>
     </div>
   </div>
   <div v-else>
     <b-alert show variant="danger" class="text-center">
-      <a href="/blog/1" class="alert-link">{{data.msg}}刷新重试</a>
+      <a href="/blog/1" class="alert-link">{{allBlog.msg}}刷新重试</a>
     </b-alert>
   </div>
 </template>
@@ -87,7 +87,7 @@ export default {
     return await app.$axios
       .get(`/api/list?page=${params.id}&per_page=${app.store.state.common.query.per_page}`)
       .then((res) => {
-        return { data: res.data };
+        return { allBlog: res.data };
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'Post not found' });
@@ -100,6 +100,7 @@ export default {
       imgsrc: 'https://source.unsplash.com/random/800x600?',
       isHovered: false,
       flag: -1,
+      allBlog: {},
     };
   },
   head() {
@@ -107,7 +108,9 @@ export default {
       title: this.title,
     };
   },
-  mounted() {},
+  mounted() {
+    // this.allBlog = this.allBlog;
+  },
   methods: {
     goDetails(id) {
       this.$router.push('/blog/details/' + id);
@@ -124,15 +127,28 @@ export default {
       this.isHovered = hovered;
     },
     getSortList(index, path) {
-      this.flag = index;
-      this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
-        this.data.blogs = res.data.blogs;
-      });
+      // this.flag = index;
+      // this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
+      //   this.allBlog.blogs = res.data.blogs;
+      // });
     },
     getValue(index) {
       // index就是子组件传过来的值
       console.log('getValue:' + index);
-      this.data.blogs.splice(index, 1);
+      this.allBlog.blogs.splice(index, 1);
+    },
+  },
+  computed: {
+    // 计算属性的 getter
+    reversedMessage: function () {
+      // `this` 指向 vm 实例
+      // return this.message.split('').reverse().join('');
+      this.allBlog.blogs.filter(function (value) {
+        //过滤数组元素
+        if (path == value.attributes.categories) {
+          return value;
+        }
+      });
     },
   },
   components: {
