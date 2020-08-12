@@ -7,7 +7,7 @@ export const state = () => ({
   overlay: false,
   query: {
     pageNum: 1,
-    per_page: 16,
+    per_page: 18,
   },
 })
 // 更改 Vuex 的 store 中的状态的唯一方法是提交 mutation

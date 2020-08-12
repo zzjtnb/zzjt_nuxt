@@ -23,17 +23,17 @@
 
         <b-row class="mt-4">
           <b-col cols="auto">
-            <b-icon-clock-history variant="info"></b-icon-clock-history>
+            <b-icon-calendar2 variant="info"></b-icon-calendar2>
             发布日期:
             {{data.date}}
           </b-col>
           <b-col cols="auto">
-            <b-icon-clock-history variant="info"></b-icon-clock-history>
+            <b-icon-file-text variant="info"></b-icon-file-text>
             文章字数:
             {{data.details.body.replace(/[\\\`\*\_\[\]\#\+\-\!\>]/g,'').length}}
           </b-col>
           <b-col cols="auto">
-            <b-icon-clock-history variant="info"></b-icon-clock-history>
+            <b-icon-clock variant="info"></b-icon-clock>
             预计阅读时长:
             {{data.details.body.replace(/[\\\`\*\_\[\]\#\+\-\!\>]/g,'').length |readTime }}
             分钟
@@ -45,10 +45,10 @@
           <mavon-editor v-model="data.details.body" :boxShadow="false" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :ishljs="true" codeStyle="agate" />
         </client-only>
       </b-card-body>
-      <b-card-footer>
-        <!-- <b-card-text>Header and footers using props.</b-card-text>
-        <b-button href="#" variant="primary">Go somewhere</b-button>-->
-      </b-card-footer>
+      <!-- <b-card-footer>
+        <b-card-text>Header and footers using props.</b-card-text>
+        <b-button href="#" variant="primary">Go somewhere</b-button>
+      </b-card-footer>-->
     </b-card>
   </b-container>
 </template>

@@ -186,7 +186,7 @@ header {
   }
 }
 .top-nav-collapse {
-  padding: 5px 0;
+  padding: 2px 1rem;
   background: #9542425e;
   transition: background 0.5s ease-in-out, padding 0.5s ease-in-out;
 }

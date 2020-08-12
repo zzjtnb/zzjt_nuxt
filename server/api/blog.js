@@ -15,7 +15,7 @@ app.get("/list", (req, res) => {
   // json.sort = sort.sortList(config.allList)
   json.sort = {}
   json.tags = []
-  json.imgArr = ['night clouds', 'Wallpapers', 'programmer', 'Nature', 'Travel', 'book', 'water', 'Film', 'Love', 'Mountain', 'Sunset', 'eruption', 'Moon', 'MacBook', '4K Backgrounds', 'page'];
+  json.imgArr = ['China', 'Lotus', 'Sky', 'Nature', 'fighter jet', 'Space', 'Model', 'Tree', 'Star', 'Chinese', 'Sunset', 'Mountain', 'monument', 'Animals', 'growth', 'Sea', 'Background', 'Monument'];
   json.pagination = {}
   // let files = []
   // if (!req.query.path) {
@@ -48,16 +48,16 @@ app.get("/list", (req, res) => {
     json.sort = repeatNum.getRepeatNum(sorts)
     // 标签去重
     json.tags = [...new Set(json.tags)]
+    //博客排序
     if (req.query.path) {
       json.blogs = json.blogs.filter((item) => {
         return item.attributes.categories == req.query.path;
       });
     }
-    //博客排序
+    // json.blogs.sort((b, a) => a.date.localeCompare(b.date, 'zh'));
     json.blogs = json.blogs.sort((a, b) => {
       return b.date.localeCompare(a.date, 'zh-Hans-CN');
     });
-    // json.blogs.sort((b, a) => a.date.localeCompare(b.date, 'zh'));
     //分页
     json.pagination.total = json.blogs.length
     json.pagination.num = Math.ceil(json.blogs.length / Number(req.query.per_page))

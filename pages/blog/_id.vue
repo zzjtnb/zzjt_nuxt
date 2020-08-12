@@ -22,14 +22,16 @@
         </b-button>
       </div>
     </div>
-    <b-form-select v-model="selected" :options="options" class="mb-3" value-field="item" text-field="name" disabled-field="notEnabled"></b-form-select>
+    <div class="container">
+      <b-form-select v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled"></b-form-select>
+    </div>
     <!-- 博客列表 -->
     <b-container>
       <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="3" cols-xl="3" align="center">
         <b-card-group v-for="(item,index) in allBlog.blogs" :key="index">
           <b-card no-body class="shadow m-1 bg-white rounded">
-            <b-link :to="`/blog/details/${item.id}`" class="position-relative">
-              <b-card-img-lazy :src="item.attributes.img||imgsrc+allBlog.imgArr[index]" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220rem" rounded></b-card-img-lazy>
+            <b-link :to="`/blog/details/${item.id}`" class="position-relative hover-img">
+              <b-card-img-lazy :src="item.attributes.img||imgsrc+ allBlog.imgArr[index]" height="220rem" blank-src=" https://via.placeholder.com/220?text=Loading+..." blank-height="220rem" rounded></b-card-img-lazy>
               <b-card-title title-tag="span">{{item.attributes.title}}</b-card-title>
             </b-link>
             <b-card-body body-class="card-content">
@@ -58,6 +60,7 @@
     <!-- 分页 -->
     <div class="overflow-auto" v-if="allBlog.pagination!=undefined">
       <b-pagination-nav
+        v-if="!this.$store.state.common.isMobile&&allBlog.pagination.num>1"
         :number-of-pages="allBlog.pagination.num"
         pills
         size="lg"
@@ -68,8 +71,8 @@
         align="center"
         @change="pageChange"
         :link-gen="linkGen"
-        v-if="allBlog.pagination.num>1"
       ></b-pagination-nav>
+      <b-pagination-nav v-if="this.$store.state.common.isMobile&&allBlog.pagination.num>1" align="center" pills :number-of-pages="allBlog.pagination.num" :link-gen="linkGen" class="mt-3 mb-3"></b-pagination-nav>
     </div>
   </div>
   <div v-else>
@@ -148,6 +151,7 @@ export default {
       this.flag = index;
       this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
         this.allBlog.blogs = res.data.blogs;
+        this.allBlog.pagination = res.data.pagination;
       });
     },
     getValue(index) {
@@ -173,15 +177,7 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.card .card-title {
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 0;
-  margin: 0;
-  font-size: 1.3rem;
-  color: white;
-}
+
 .block-with-text:before {
   content: '...';
   position: absolute;
@@ -214,5 +210,37 @@ export default {
 .chip:hover {
   color: #fff;
   background: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%) !important;
+}
+.card .card-title {
+  position: absolute;
+  width: 100%;
+  top: 30%;
+  left: 0;
+  margin: 0;
+  font-size: 1.3rem;
+  color: white;
+  font-weight: bold;
+  font-family: cursive;
+  z-index: 2;
+}
+
+.hover-img:before,
+.hover-img:after {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: '';
+  z-index: 1;
+  opacity: 0.5;
+  transform: scaleY(1);
+}
+.hover-img:hover:before,
+.hover-img:hover:after {
+  transform: scale(1);
+  opacity: 0;
+  transition: all 0.3s ease;
 }
 </style>
