@@ -17,27 +17,32 @@ exports.lists = function (filePath) {
   blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');
   let stats = fs.statSync(filePath);
   blog.id = base64.encodeURL(filePath)
-  // blog.date = moment(stats.birthtimeMs).format('YYYY-MM-DD-HH');
-  // blog.date = moment(stats.birthtimeMs).format('llLTS');
-  blog.date = moment(stats.birthtimeMs).format('YYYY-MM-DD HH:mm:ss');
-  blog.imgArr = ['night clouds', 'Wallpapers', 'programmer', 'Nature', 'Travel', 'book', 'water', 'Film', 'Love', 'Mountain', 'Sunset', 'eruption', 'Moon', 'MacBook', '4K Backgrounds', 'page'];
+  // blog.date = moment(stats. ctimeMs).format('YYYY-MM-DD-HH');
+  // blog.date = moment(stats. ctimeMs).format('llLTS');
+  blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD HH:mm:ss');
+
   return blog;
 }
 exports.singleBlog = function (filePath, flag) {
-  let json = { stats: 404, msg: "请求的数据不存在" }
+  let json = { stats: 404, msg: "请求的数据不正确" }
   let path = base64.decode(filePath)
   if (fs.existsSync(path)) {
-    if (!flag) {
-      return fm(fs.readFileSync(path, "utf8"));
+    if (flag) {
+      json = fs.readFileSync(path, "utf8");
+      return json
     } else {
-      return fs.readFileSync(path, "utf8");
+      let data = {}
+      let stats = fs.statSync(path);
+      data.date = moment(stats.ctimeMs).format('llLTS');
+      data.details = fm(fs.readFileSync(path, "utf8"));
+      return data
     }
   } else {
     return json
   }
 }
 exports.delete = function (filePath) {
-  let json = { stats: 400, msg: "删除失败,请求的数据不正确" }
+  let json = { stats: 404, msg: "删除失败,请求的数据不正确" }
   let path = base64.decode(filePath)
   if (fs.existsSync(path)) {
     fs.unlinkSync(path)
@@ -87,7 +92,6 @@ exports.addBlog = function (data) {
     if (stats.isFile()) {
       let bak = dirPath + '.bak'
       fs.renameSync(dirPath, bak)
-      console.log(bak);
       fs.renameSync(bak, config.backup + categories + '.bak')
       fs.mkdirSync(dirPath)
       fs.writeFileSync(fullPath, content, 'utf8')

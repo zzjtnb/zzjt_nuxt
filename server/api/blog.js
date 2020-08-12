@@ -15,16 +15,18 @@ app.get("/list", (req, res) => {
   // json.sort = sort.sortList(config.allList)
   json.sort = {}
   json.tags = []
+  json.imgArr = ['night clouds', 'Wallpapers', 'programmer', 'Nature', 'Travel', 'book', 'water', 'Film', 'Love', 'Mountain', 'Sunset', 'eruption', 'Moon', 'MacBook', '4K Backgrounds', 'page'];
   json.pagination = {}
-  let files = []
-  if (!req.query.path) {
-    //获取目录下所有文件
-    files = eachFile.eachDirSync(config.allList)
-  } else {
-    //获取当前文件的绝对路径
-    const filePath = path.join(config.allList, req.query.path)
-    files = eachFile.eachDirSync(filePath)
-  }
+  // let files = []
+  // if (!req.query.path) {
+  //   //获取目录下所有文件
+  //   files = eachFile.eachDirSync(config.allList)
+  // } else {
+  //   //获取当前文件的绝对路径
+  //   const filePath = path.join(config.allList, req.query.path)
+  //   files = eachFile.eachDirSync(filePath)
+  // }
+  let files = eachFile.eachDirSync(config.allList)
   if (files) {
     for (let i = 0; i < files.length; i++) {
       json.blogs.push(blog.lists(files[i]));
@@ -46,9 +48,14 @@ app.get("/list", (req, res) => {
     json.sort = repeatNum.getRepeatNum(sorts)
     // 标签去重
     json.tags = [...new Set(json.tags)]
+    if (req.query.path) {
+      json.blogs = json.blogs.filter((item) => {
+        return item.attributes.categories == req.query.path;
+      });
+    }
     //博客排序
-    json.blogs = json.blogs.sort((b, a) => {
-      return a.date.localeCompare(b.date, 'zh-Hans-CN');
+    json.blogs = json.blogs.sort((a, b) => {
+      return b.date.localeCompare(a.date, 'zh-Hans-CN');
     });
     // json.blogs.sort((b, a) => a.date.localeCompare(b.date, 'zh'));
     //分页
@@ -98,7 +105,6 @@ app.put("/edit", (req, res) => {
 });
 app.put("/add", (req, res) => {
   let json = blog.addBlog(req.body.data)
-  console.log(json);
   if (json.stats == 200) {
     res.status(200).json(json)
   } else {

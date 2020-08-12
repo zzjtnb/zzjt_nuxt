@@ -28,8 +28,11 @@ export default {
     return await app.$axios
       .$get('/api/details', { params: { id: params.id, flag: 'edit' } })
       .then((res) => {
-        let content = res.data;
-        return { content: content, title: title };
+        let form = {
+          title: title,
+          content: res,
+        };
+        return { form: form };
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'Post not found' });
@@ -46,13 +49,10 @@ export default {
   },
   head() {
     return {
-      title: this.title,
+      title: this.form.title,
     };
   },
-  mounted() {
-    this.form.title = this.title;
-    this.form.content = this.content;
-  },
+  mounted() {},
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
@@ -62,7 +62,19 @@ export default {
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/edit', { data: { id: this.$route.params.id, file: file } }).then((res) => {
-        console.log(res);
+        if (res.stats) {
+          this.$bvToast.toast(res.msg, {
+            title: '提示',
+            variant: 'success',
+            solid: true,
+          });
+        } else {
+          this.$bvToast.toast(res.msg, {
+            title: '提示',
+            variant: 'warning',
+            solid: true,
+          });
+        }
       });
     },
     onReset(evt) {

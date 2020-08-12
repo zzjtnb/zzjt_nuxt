@@ -79,7 +79,19 @@ return that;
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/add', { data: { file: file } }).then((res) => {
-        console.log(res);
+        if (res.stats) {
+          this.$bvToast.toast(res.msg, {
+            title: '提示',
+            variant: 'success',
+            solid: true,
+          });
+        } else {
+          this.$bvToast.toast(res.msg, {
+            title: '提示',
+            variant: 'warning',
+            solid: true,
+          });
+        }
       });
     },
     onReset(evt) {

@@ -1,6 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
-_posts
+# _posts
 # Logs
 /logs
 *.log

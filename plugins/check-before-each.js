@@ -1,11 +1,11 @@
 export default function ({ store, app }) {
   app.router.beforeEach((to, from, next) => {
     if (to.path == "/") {
-      store.dispatch('common/SetIsIndex', true)
-      store.dispatch('common/SetIsFixed', 'top')
+      // store.dispatch('common/SetIsIndex', true)
+      // store.dispatch('common/SetIsFixed', 'top')
     } else {
-      store.dispatch('common/SetIsIndex', false)
-      store.dispatch('common/SetIsFixed', '')
+      // store.dispatch('common/SetIsIndex', false)
+      // store.dispatch('common/SetIsFixed', '')
     }
     // 如果是账号设置，或者我的钱包页面模块，就判断用户是否登录了
     // if (to.path.indexOf('setting') !== -1 || to.path.indexOf('wallet') !== -1) {

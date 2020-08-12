@@ -1,3 +1,4 @@
+<!--本地过滤-->
 <template>
   <div v-if="!allBlog.msg" style="height: 1500px;">
     <!-- 博客分类 -->
@@ -92,7 +93,7 @@ export default {
       .get(`/api/list?page=${params.id}&per_page=${app.store.state.common.query.per_page}`)
       .then((res) => {
         // store.dispatch('blogs/SetBlogList', res.data);
-        return { allBlog: res.data };
+        return { allBlog: res.data, blogsArr: res.data.blogs };
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'Post not found' });
@@ -106,6 +107,7 @@ export default {
       isHovered: false,
       flag: -1,
       allBlog: {},
+      blogsArr: [],
       selected: 'a',
       options: [
         { item: 'a', name: '最新发表' },
@@ -146,9 +148,12 @@ export default {
     },
     getSortList(index, path) {
       this.flag = index;
-      this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
-        this.allBlog.blogs = res.data.blogs;
+      this.allBlog.blogs = this.blogsArr.filter((item) => {
+        return item.attributes.categories == path;
       });
+      // this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
+      //   this.allBlog.blogs = res.data.blogs;
+      // });
     },
     getValue(index) {
       // index就是子组件传过来的值

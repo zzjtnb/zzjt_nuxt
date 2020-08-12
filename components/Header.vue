@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <header>
-    <b-navbar toggleable="lg" :fixed="this.$store.state.common.isFixed" :class="{'top-nav-collapse':top_nav_collapse,'isNotIndex':!this.$store.state.common.isIndex}" type="dark">
+    <b-navbar toggleable="lg" :fixed="this.$store.state.common.isFixed" :class="{'top-nav-collapse':top_nav_collapse,'isNotIndex':this.$route.path!='/'}" type="dark">
       <div class="container">
         <b-navbar-brand class="site-logo">
           <img src="../assets/images/header/logo-light.png" alt srcset />
@@ -114,6 +114,7 @@ export default {
 <style scoped lang='scss'>
 header {
   position: relative;
+  z-index: 100;
   // height: 4rem;
 }
 .site-logo img {
