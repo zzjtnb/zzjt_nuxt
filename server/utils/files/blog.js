@@ -3,9 +3,10 @@ const path = require('path');
 const fm = require('front-matter');
 const moment = require('moment')
 const base64 = require('js-base64').Base64;
-moment.locale('zh-cn'); // zh-
-// 所有的选项列表（默认情况下）
-// const md = require('markdown-it')('zero');
+moment.locale('zh-cn');
+// default 模式
+const md = require('markdown-it')();
+
 const config = require("../../config");
 
 exports.lists = function (filePath) {
@@ -20,6 +21,21 @@ exports.lists = function (filePath) {
   // blog.date = moment(stats. ctimeMs).format('YYYY-MM-DD-HH');
   // blog.date = moment(stats. ctimeMs).format('llLTS');
   blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD HH:mm:ss');
+
+  return blog;
+}
+exports.search = function (filePath) {
+  var blog = {};
+  var content = fm(fs.readFileSync(filePath, "utf8"));
+  blog.attributes = content.attributes;
+  // blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');//替换md格式
+  blog.body = md.render(content.body);
+  const reg = /<[^>]+>/gi;
+  blog.body = blog.body.replace(reg, '');//替换html标签
+  blog.body = blog.body.replace(/&nbsp;/gi, '');//替换空格
+  let stats = fs.statSync(filePath);
+  blog.id = base64.encodeURL(filePath)
+  blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD');
 
   return blog;
 }

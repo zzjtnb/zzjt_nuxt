@@ -9,6 +9,60 @@ const repeatNum = require('../utils/repeatNum');
 var config = require("../config");
 let errMsg = { stats: 404, msg: "请求的数据不正确" }
 
+app.put("/add", (req, res) => {
+  let json = blog.addBlog(req.body.data)
+  if (json.stats == 200) {
+    res.status(200).json(json)
+  } else {
+    res.status(404).json(json)
+  }
+});
+app.delete("/delete", (req, res) => {
+  let json = blog.delete(req.query.id)
+  if (json.stats == 200) {
+    res.status(200).json(json);
+  } else {
+    res.status(404).json(errMsg)
+  }
+});
+app.put("/edit", (req, res) => {
+  let json = blog.editBlog(req.body.data)
+  if (json.stats == 200) {
+    res.status(200).json(json)
+  } else {
+    res.status(404).json(errMsg)
+  }
+});
+app.get("/details", (req, res) => {
+  const json = blog.singleBlog(req.query.id, req.query.flag)
+  if (json.stats == 404) {
+    res.status(404).json(json);
+  } else {
+    res.status(200).json(json);
+  }
+});
+app.get("/search", (req, res) => {
+  if (req.query.searchValue != '') {
+    let json = [];
+    let files = eachFile.eachDirSync(config.allList)
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        json.push(blog.search(files[i]));
+      }
+      json = json.filter((item) => {
+        if (item.attributes.title.toString().match(req.query.searchValue) != null || item.body.toString().match(req.query.searchValue) != null) {
+          return item
+        }
+      })
+      json.sort((a, b) => b.date.localeCompare(a.date, 'zh'));
+      res.status(200).json(json)
+    } else {
+      res.status(500).json('服务器开小差了,请稍后再试');
+    }
+  } else {
+    res.status(404).json('请输入查询参数')
+  }
+});
 app.get("/list", (req, res) => {
   let json = {};
   json.blogs = [];
@@ -17,15 +71,6 @@ app.get("/list", (req, res) => {
   json.tags = []
   json.imgArr = ['China', 'Lotus', 'Sky', 'Nature', 'fighter jet', 'Space', 'Model', 'Tree', 'Star', 'Chinese', 'Sunset', 'Mountain', 'monument', 'Animals', 'growth', 'Sea', 'Background', 'Monument'];
   json.pagination = {}
-  // let files = []
-  // if (!req.query.path) {
-  //   //获取目录下所有文件
-  //   files = eachFile.eachDirSync(config.allList)
-  // } else {
-  //   //获取当前文件的绝对路径
-  //   const filePath = path.join(config.allList, req.query.path)
-  //   files = eachFile.eachDirSync(filePath)
-  // }
   let files = eachFile.eachDirSync(config.allList)
   if (files) {
     for (let i = 0; i < files.length; i++) {
@@ -54,7 +99,7 @@ app.get("/list", (req, res) => {
         return item.attributes.categories == req.query.path;
       });
     }
-    // json.blogs.sort((b, a) => a.date.localeCompare(b.date, 'zh'));
+    //默认排序
     json.blogs = json.blogs.sort((a, b) => {
       return b.date.localeCompare(a.date, 'zh-Hans-CN');
     });
@@ -77,38 +122,5 @@ app.get("/list", (req, res) => {
     res.status(404).json(errMsg)
   }
 });
-app.get("/details", (req, res) => {
-  const json = blog.singleBlog(req.query.id, req.query.flag)
-  if (json.stats == 404) {
-    res.status(404).json(json);
-  } else {
-    res.status(200).json(json);
-  }
-});
-app.delete("/delete", (req, res) => {
-  let json = blog.delete(req.query.id)
-  if (json.stats == 200) {
-    res.status(200).json(json);
-  } else {
-    res.status(404).json(errMsg)
-  }
 
-  // res.json({ stats: 200, msg: "hhh" })
-});
-app.put("/edit", (req, res) => {
-  let json = blog.editBlog(req.body.data)
-  if (json.stats == 200) {
-    res.status(200).json(json)
-  } else {
-    res.status(404).json(errMsg)
-  }
-});
-app.put("/add", (req, res) => {
-  let json = blog.addBlog(req.body.data)
-  if (json.stats == 200) {
-    res.status(200).json(json)
-  } else {
-    res.status(404).json(json)
-  }
-});
 module.exports = app;

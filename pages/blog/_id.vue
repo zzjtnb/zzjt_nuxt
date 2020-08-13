@@ -1,5 +1,6 @@
 <template>
   <div v-if="!allBlog.msg" style="height: 1500px;">
+    <!-- <div>{{this.allBlog.blogs}}</div> -->
     <!-- 博客分类 -->
     <div class="container rounded shadow-lg text-center mt-3 mb-3 p-3">
       <div class="sort-title mb-2">
@@ -35,7 +36,7 @@
               <b-card-title title-tag="span">{{item.attributes.title}}</b-card-title>
             </b-link>
             <b-card-body body-class="card-content">
-              <div class="summary block-with-text">{{item.body}}</div>
+              <div class="summary" :class="{'block-with-text':item.body.length>130}">{{item.body}}</div>
               <div class="publish">
                 <p class="m-1">
                   <b-icon-clock-history variant="info"></b-icon-clock-history>
@@ -178,30 +179,6 @@ export default {
   justify-content: space-between;
 }
 
-.block-with-text:before {
-  content: '...';
-  position: absolute;
-  right: 0.2em;
-  bottom: 0;
-}
-.block-with-text:after {
-  content: '';
-  position: absolute;
-  right: 0;
-  width: 1em;
-  height: 1em;
-  margin-top: 0.4em;
-  background: white;
-}
-.block-with-text {
-  overflow: hidden;
-  position: relative;
-  line-height: 1.5em;
-  max-height: 4.5em;
-  text-align: justify;
-  margin-right: -1em;
-  padding-right: 1em;
-}
 .chip-active {
   color: #fff !important;
   background: linear-gradient(to bottom right, #ff5e3a 0%, #ff2a68 100%) !important;

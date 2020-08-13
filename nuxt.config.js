@@ -31,9 +31,9 @@ module.exports = {
     "~/plugins/axios",
     '~/plugins/untis',
     '~plugins/filters', // 全局过滤器
-    '~plugins/check-before-each.js', // 全局路由守卫插件
-    { src: '@/plugins/vue-mavon-editor', ssr: false },
-    { src: '~/plugins/vue-inject', ssr: false },
+    '~plugins/checkBeforeEach.js', // 全局路由守卫插件
+    { src: '@/plugins/vueMavonEditor', ssr: false },
+    { src: '~/plugins/vueInject', ssr: false },
     { src: '~/plugins/toast', ssr: false }
   ],
   /**
@@ -60,7 +60,7 @@ module.exports = {
   bootstrapVue: {
     bootstrapCSS: false, // Or `css: false`
     bootstrapVueCSS: false, // Or `bvCSS: false`
-    componentPlugins: ['LayoutPlugin', 'NavbarPlugin', 'ButtonPlugin', 'OverlayPlugin', 'ToastPlugin', 'CardPlugin', 'PaginationNavPlugin', 'FormPlugin', 'FormGroupPlugin', 'FormInputPlugin', 'FormSelectPlugin', 'AlertPlugin', 'LinkPlugin', 'BadgePlugin', 'VBHoverPlugin', 'ModalPlugin', 'ProgressPlugin'],
+    componentPlugins: ['LayoutPlugin', 'NavbarPlugin', 'ButtonPlugin', 'OverlayPlugin', 'ToastPlugin', 'CardPlugin', 'PaginationNavPlugin', 'FormPlugin', 'FormGroupPlugin', 'FormInputPlugin', 'FormSelectPlugin', 'AlertPlugin', 'LinkPlugin', 'BadgePlugin', 'VBHoverPlugin', 'ModalPlugin', 'ProgressPlugin', 'ListGroupPlugin'],
     components: ['BIcon', 'BIconstack', 'BIconBookmarkFill', 'BIconCircle', 'BIconCircleFill', 'BIconTrashFill', 'BIconPencilSquare', 'BIconShareFill', 'BIconClockHistory', 'BIconClock', 'BIconChevronBarUp', 'BIconChevronBarDown', 'BIconCalendar2', 'BIconFileText']
   },
 

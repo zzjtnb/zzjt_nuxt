@@ -6,3 +6,32 @@
 .page-leave-active {
   opacity: 0;
 }
+.block-with-text:before {
+  content: '...';
+  position: absolute;
+  right: 0.2em;
+  bottom: 0;
+  font-weight: bolder;
+}
+.block-with-text:after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.4em;
+  // background: white;
+}
+.block-with-text {
+  overflow: hidden;
+  position: relative;
+  line-height: 1.5em;
+  max-height: 4.5em;
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1rem;
+}
+.summary{
+  word-break: break-all;
+  overflow-wrap: break-word;
+}

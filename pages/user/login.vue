@@ -36,6 +36,7 @@ export default {
         if (res.status == 200) {
           this.$cookies.set('TOKEN_KEY', this.form.token, {
             maxAge: 60 * 60 * 24,
+            sameSite: 'strict',
           });
           this.$bvToast.toast('登陆成功', {
             title: '提示',

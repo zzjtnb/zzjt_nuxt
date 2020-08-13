@@ -36,9 +36,9 @@
               <b-dropdown-item to="/user/account">个人中心</b-dropdown-item>
               <b-dropdown-item @click="cancellation()">注销</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-nav-form inline>
-              <b-form-input type="search" placeholder="输入关键词，回车..." class="searchInput" debounce="200" v-model="searchValue" @keyup.enter="search($event)"></b-form-input>
-            </b-nav-form>
+          </b-navbar-nav>
+          <b-navbar-nav class="d-flex justify-content-center">
+            <Search />
           </b-navbar-nav>
         </b-collapse>
       </div>
@@ -47,12 +47,12 @@
 </template>
 
 <script >
+import Search from './Search';
 export default {
   data() {
     return {
       top_nav_collapse: false,
       path: this.$route.path,
-      searchValue: '',
     };
   },
   watch: {
@@ -79,21 +79,6 @@ export default {
         this.top_nav_collapse = false;
       }
     },
-    search(event) {
-      console.log(1);
-      let data = event.target.value;
-      this.$router.push({
-        path: `/blog/1`,
-        query: { query: data },
-        params: { id: pageNum, per_page: this.query.per_page },
-      });
-      // this.$store.dispatch('SetSearchValue', data);
-      // if (this.$route.path == '/search') {
-      //   this.onRefresh();
-      // } else {
-      //   this.$router.push('/blog/1');
-      // }
-    },
     cancellation() {
       this.$cookies.remove('TOKEN_KEY');
       if (this.$route.path == '/') {
@@ -103,7 +88,9 @@ export default {
       }
     },
   },
-  components: {},
+  components: {
+    Search,
+  },
   //由于是在整个window中添加的事件，所以要在页面离开时摧毁掉，否则会报错
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -203,31 +190,6 @@ header {
   flex-direction: initial;
 }
 
-.searchInput {
-  background-image: none;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  border: none;
-  border-bottom: 1px solid #fff;
-  border-radius: 0;
-  background-color: transparent;
-  color: #fff;
-}
-input[type='search']:focus:not([readonly]) {
-  box-shadow: 0 0 0 0 #8ff442;
-  border-bottom: 1px solid #8ff442;
-}
-
-input[type='search']::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-  height: 16px;
-  width: 16px;
-  background: url('../assets/images/x.png') no-repeat;
-  background-size: contain;
-}
-input::placeholder {
-  color: #ffffffb0;
-  font-size: 0.9rem;
-}
 .dropdown-item.actives,
 .dropdown-item:actives {
   background-image: linear-gradient(45deg, #fbda61 0%, #ff5acd 100%);
