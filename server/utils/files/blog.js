@@ -72,8 +72,8 @@ exports.delete = function (filePath) {
 exports.editBlog = function (data) {
   let json = { stats: 200, msg: "保存成功" }
   let oldPath = base64.decode(data.id)
-  // string.replace(/[<>:"/|?*]+/g, '');
-  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name.replace(/[<>:"/|?*]+/g, '') + '.md'
+  // string.replace(/[<>.:"/|?*]+/g, '');
+  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name.replace(/[<>,.*!:"/\\|?*]+/g, '') + '.md'
   let content = base64.decode(data.file.content)
   if (fs.existsSync(oldPath)) {
     if (oldPath == newPath) {
@@ -94,7 +94,7 @@ exports.editBlog = function (data) {
 exports.addBlog = function (data) {
   let json = { stats: 200, msg: "保存成功" }
   let content = base64.decode(data.file.content)
-  let name = data.file.name.replace(/[<>:"/|?*]+/g, '') + '.md'
+  let name = data.file.name.replace(/[<>,.*!:"/\\|?*]+/g, '') + '.md'
   let categories = fm(content).attributes.categories
   let dirPath = ''
   if (categories) {

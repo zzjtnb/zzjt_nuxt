@@ -58,7 +58,7 @@ export default {
       evt.preventDefault();
       // alert(JSON.stringify(this.form));
       let file = {};
-      file.name = this.form.title.replace(/[<>:"/|?*]+/g, '');
+      file.name = this.form.title.replace(/[<>,.*!:"/\\|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/edit', { data: { id: this.$route.params.id, file: file } }).then((res) => {

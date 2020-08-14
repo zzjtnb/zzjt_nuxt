@@ -68,7 +68,7 @@ tags:
       // JSON.stringify(obj),
       // alert(JSON.stringify(this.form));
       let file = {};
-      file.name = this.form.title.replace(/[<>:"/|?*]+/g, '');
+      file.name = this.form.title.replace(/[<>,.*!:"/\\|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/add', { data: { file: file } }).then((res) => {
