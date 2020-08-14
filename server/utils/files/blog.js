@@ -70,11 +70,10 @@ exports.delete = function (filePath) {
   }
 }
 exports.editBlog = function (data) {
-  // http://localhost:3000/blog/edit/X3Bvc3RzXOWQjuerr1w0IGNvcHkubWQ
   let json = { stats: 200, msg: "保存成功" }
   let oldPath = base64.decode(data.id)
-  // let commonPath = oldPath.match(/.*\\/g)[0]
-  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name + '.md'
+  // string.replace(/[<>:"/|?*]+/g, '');
+  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name.replace(/[<>:"/|?*]+/g, '') + '.md'
   let content = base64.decode(data.file.content)
   if (fs.existsSync(oldPath)) {
     if (oldPath == newPath) {
@@ -90,10 +89,12 @@ exports.editBlog = function (data) {
     return json
   }
 }
+
+
 exports.addBlog = function (data) {
   let json = { stats: 200, msg: "保存成功" }
   let content = base64.decode(data.file.content)
-  let name = data.file.name + '.md'
+  let name = data.file.name.replace(/[<>:"/|?*]+/g, '') + '.md'
   let categories = fm(content).attributes.categories
   let dirPath = ''
   if (categories) {

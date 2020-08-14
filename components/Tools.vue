@@ -33,8 +33,9 @@ export default {
   },
   mounted() {},
   methods: {
-    editBlog() {
-      this.$router.push('/blog/edit/' + this.id);
+    editBlog(id) {
+      console.log(id);
+      this.$router.push('/blog/edit/' + id);
     },
     deleteGists(index) {
       this.$bvModal

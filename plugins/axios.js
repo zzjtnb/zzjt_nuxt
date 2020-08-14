@@ -4,7 +4,6 @@ export default function ({ $axios, error }) {
       error({ statusCode: 403, message: "forbidden" })
     }
     if (e.response.status === 404) {
-      console.log(e);
       error({ statusCode: 404, message: e })
     }
     if (e.response.status === 500) {

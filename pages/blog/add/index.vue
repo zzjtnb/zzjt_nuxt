@@ -2,6 +2,8 @@
   <b-form @submit="onSubmit" @reset="onReset" v-if="formShow">
     <b-form-group label="标题:">
       <b-form-input v-model="form.title" required placeholder="请输入标题"></b-form-input>
+      <!-- <p>这里将会显示您输入的值：{{form.title}}</p>
+      <p>这里将会显示您过滤后的值(v-model如何使用过滤器)：{{msgF}}</p>-->
     </b-form-group>
     <b-form-group label="正文:">
       <div class="mavonEditor">
@@ -22,29 +24,15 @@ export default {
   data() {
     return {
       form: {
-        title: 'This is a sample Markdown',
+        title: '',
         content: `---
-title: This is a sample Markdown
-img: https://images.unsplash.com/photo-1504164996022-09080787b6b3?&h=600&w=800
+title: 
+img: 
 categories: 前端
 tags:
-  - JavaScript
+  - Javascript
 ---
-# First sample H1
-## First sample H2Normal text **Bold Text** ***Italic Bold Text*** ~~Strike Through text~~ *Italic Text*
-# Second sample H1
-## Second sample H2
-### Second sample H3
-> Quoted text
->
->> Quote within a quote
->>
-\`\`\`JavaScript
-function myFun() {
-var that = this;
-return that;
-}
-\`\`\`
+
 `,
       },
       formShow: true,
@@ -54,6 +42,11 @@ return that;
     return {
       title: '添加博客',
     };
+  },
+  computed: {
+    // msgF() {
+    //   return (this.form.title = this.form.title.replace(/[\\/:*?"<>|]/, ''));
+    // },
   },
   mounted() {},
   methods: {
@@ -75,7 +68,7 @@ return that;
       // JSON.stringify(obj),
       // alert(JSON.stringify(this.form));
       let file = {};
-      file.name = this.form.title;
+      file.name = this.form.title.replace(/[<>:"/|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/add', { data: { file: file } }).then((res) => {
