@@ -1,7 +1,7 @@
 <template>
   <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-    <b-form-group label="标题:">
-      <b-form-input v-model="form.title" required placeholder="请输入标题"></b-form-input>
+    <b-form-group label="文件名:">
+      <b-form-input v-model="form.name" required placeholder="请输入标题"></b-form-input>
     </b-form-group>
     <b-form-group label="正文:">
       <div class="mavonEditor">
@@ -19,20 +19,21 @@
 
 <script >
 export default {
-  async asyncData({ app, params, query, store, route, error }) {
+  async asyncData({ app, params, error }) {
     // let data = new Buffer(params.id, 'base64').toString(); //base64解码
-    // let title = data.split('\\').pop().replace(/\..+$/, '');
-    let base64 = require('js-base64').Base64;
-    let data = base64.decode(params.id); //base64解码
-    let title = data.replace(/.*\\|\..*$/g, '');
+    // let title = data.split('\\').pop().replace(/\..+$/, '')
+    // let base64 = require('js-base64').Base64;
+    // let data = base64.decode(params.id); //base64解码
+    // let name = data.replace(/.*\\|\..*$/g, '');
+
     return await app.$axios
       .$get('/api/details', { params: { id: params.id, flag: 'edit' } })
       .then((res) => {
-        let form = {
-          title: title,
-          content: res,
+        let data = {
+          name: res.name,
+          content: res.details,
         };
-        return { form: form };
+        return { form: data };
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'Post not found' });
@@ -40,16 +41,12 @@ export default {
   },
   data() {
     return {
-      form: {
-        title: '',
-        content: '',
-      },
       show: true,
     };
   },
   head() {
     return {
-      title: this.form.title,
+      title: this.form.name,
     };
   },
   mounted() {},
@@ -58,7 +55,7 @@ export default {
       evt.preventDefault();
       // alert(JSON.stringify(this.form));
       let file = {};
-      file.name = this.form.title.replace(/[<>,.*!:"/\\|?*]+/g, '');
+      file.name = this.form.name.replace(/[<>,.*!:"/\\|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/edit', { data: { id: this.$route.params.id, file: file } }).then((res) => {

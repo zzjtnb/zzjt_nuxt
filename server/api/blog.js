@@ -36,10 +36,11 @@ app.put("/edit", (req, res) => {
 });
 app.get("/details", (req, res) => {
   const json = blog.singleBlog(req.query.id, req.query.flag)
-  if (json.stats == 404) {
-    res.status(404).json(json);
-  } else {
+  console.log(json.stats);
+  if (json.stats == 200) {
     res.status(200).json(json);
+  } else {
+    res.status(404).json(json);
   }
 });
 app.get("/search", (req, res) => {

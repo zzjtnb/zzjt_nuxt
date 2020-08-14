@@ -9,87 +9,6 @@ const md = require('markdown-it')();
 
 const config = require("../../config");
 
-exports.lists = function (filePath) {
-  var blog = {};
-  var content = fm(fs.readFileSync(filePath, "utf8"));
-  blog.attributes = content.attributes;
-  // blog.body = md.render(content.body);
-  // blog.body = content.body;
-  blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');
-  let stats = fs.statSync(filePath);
-  blog.id = base64.encodeURL(filePath)
-  // blog.date = moment(stats. ctimeMs).format('YYYY-MM-DD-HH');
-  // blog.date = moment(stats. ctimeMs).format('llLTS');
-  blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD HH:mm:ss');
-
-  return blog;
-}
-exports.search = function (filePath) {
-  var blog = {};
-  var content = fm(fs.readFileSync(filePath, "utf8"));
-  blog.attributes = content.attributes;
-  // blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');//替换md格式
-  blog.body = md.render(content.body);
-  const reg = /<[^>]+>/gi;
-  blog.body = blog.body.replace(reg, '');//替换html标签
-  blog.body = blog.body.replace(/&nbsp;/gi, '');//替换空格
-  let stats = fs.statSync(filePath);
-  blog.id = base64.encodeURL(filePath)
-  blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD');
-
-  return blog;
-}
-exports.singleBlog = function (filePath, flag) {
-  let json = { stats: 404, msg: "请求的数据不正确" }
-  let path = base64.decode(filePath)
-  if (fs.existsSync(path)) {
-    if (flag) {
-      json = fs.readFileSync(path, "utf8");
-      return json
-    } else {
-      let data = {}
-      let stats = fs.statSync(path);
-      data.date = moment(stats.ctimeMs).format('llLTS');
-      data.details = fm(fs.readFileSync(path, "utf8"));
-      return data
-    }
-  } else {
-    return json
-  }
-}
-exports.delete = function (filePath) {
-  let json = { stats: 404, msg: "删除失败,请求的数据不正确" }
-  let path = base64.decode(filePath)
-  if (fs.existsSync(path)) {
-    fs.unlinkSync(path)
-    json.stats = 200
-    json.msg = "删除成功"
-    return json
-  } else {
-    return json
-  }
-}
-exports.editBlog = function (data) {
-  let json = { stats: 200, msg: "保存成功" }
-  let oldPath = base64.decode(data.id)
-  // string.replace(/[<>.:"/|?*]+/g, '');
-  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name.replace(/[<>,.*!:"/\\|?*]+/g, '') + '.md'
-  let content = base64.decode(data.file.content)
-  if (fs.existsSync(oldPath)) {
-    if (oldPath == newPath) {
-      fs.writeFileSync(oldPath, content, 'utf8')
-      return json
-    } else {
-      fs.renameSync(oldPath, newPath)
-      fs.writeFileSync(newPath, content)
-      return json
-    }
-  } else {
-    fs.writeFileSync(oldPath, content)
-    return json
-  }
-}
-
 
 exports.addBlog = function (data) {
   let json = { stats: 200, msg: "保存成功" }
@@ -130,6 +49,91 @@ exports.addBlog = function (data) {
     return json
   }
 }
+exports.delete = function (filePath) {
+  let json = { stats: 404, msg: "删除失败,请求的数据不正确" }
+  let path = base64.decode(filePath)
+  if (fs.existsSync(path)) {
+    fs.unlinkSync(path)
+    json.stats = 200
+    json.msg = "删除成功"
+    return json
+  } else {
+    return json
+  }
+}
+exports.editBlog = function (data) {
+  let json = { stats: 200, msg: "保存成功" }
+  let oldPath = base64.decode(data.id)
+  let newPath = oldPath.match(/.*\\/g)[0] + data.file.name.replace(/[<>,.*!:"/\\|?*]+/g, '') + '.md'
+  let content = base64.decode(data.file.content)
+  console.log(oldPath);
+  console.log('newPath:' + newPath);
+  if (fs.existsSync(oldPath)) {
+    if (oldPath == newPath) {
+      fs.writeFileSync(oldPath, content, 'utf8')
+      return json
+    } else {
+      fs.renameSync(oldPath, newPath)
+      fs.writeFileSync(newPath, content)
+      return json
+    }
+  } else {
+    fs.writeFileSync(oldPath, content)
+    return json
+  }
+}
+
+exports.singleBlog = function (filePath, flag) {
+  let json = { stats: 404, msg: "请求的数据不正确" }
+  let path = base64.decode(filePath)
+  if (fs.existsSync(path)) {
+    if (flag) {
+      let data = {}
+      data.stats = 200
+      data.name = path.replace(/.*\\|\..*$/g, '');
+      data.details = fs.readFileSync(path, "utf8")
+      return data
+    } else {
+      let stats = fs.statSync(path);
+      let data = {}
+      data.stats = 200
+      data.date = moment(stats.ctimeMs).format('llLTS');
+      data.details = fm(fs.readFileSync(path, "utf8"));
+      return data
+    }
+  } else {
+    return json
+  }
+}
+exports.search = function (filePath) {
+  var blog = {};
+  var content = fm(fs.readFileSync(filePath, "utf8"));
+  blog.attributes = content.attributes;
+  // blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');//替换md格式
+  blog.body = md.render(content.body);
+  const reg = /<[^>]+>/gi;
+  blog.body = blog.body.replace(reg, '');//替换html标签
+  blog.body = blog.body.replace(/&nbsp;/gi, '');//替换空格
+  let stats = fs.statSync(filePath);
+  blog.id = base64.encodeURL(filePath)
+  blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD');
+  return blog;
+}
+exports.lists = function (filePath) {
+  var blog = {};
+  var content = fm(fs.readFileSync(filePath, "utf8"));
+  blog.attributes = content.attributes;
+  // blog.body = md.render(content.body);
+  blog.body = content.body.replace(/[#`\s>\[\]\n]/g, '');
+  let stats = fs.statSync(filePath);
+  blog.id = base64.encodeURL(filePath)
+  // blog.date = moment(stats. ctimeMs).format('YYYY-MM-DD-HH');
+  // blog.date = moment(stats. ctimeMs).format('llLTS');
+  blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD HH:mm:ss');
+
+  return blog;
+}
+
 
 exports.tags = function (filePath) {
   var tags = [];

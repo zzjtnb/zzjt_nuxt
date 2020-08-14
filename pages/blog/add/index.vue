@@ -1,11 +1,11 @@
 <template>
   <b-form @submit="onSubmit" @reset="onReset" v-if="formShow">
-    <b-form-group label="标题:">
-      <b-form-input v-model="form.title" required placeholder="请输入标题"></b-form-input>
-      <!-- <p>这里将会显示您输入的值：{{form.title}}</p>
+    <b-form-group label="文件名:">
+      <b-form-input v-model="form.name" required placeholder="请输入标题"></b-form-input>
+      <!-- <p>这里将会显示您输入的值：{{form.name}}</p>
       <p>这里将会显示您过滤后的值(v-model如何使用过滤器)：{{msgF}}</p>-->
     </b-form-group>
-    <b-form-group label="正文:">
+    <b-form-group label="内容:">
       <div class="mavonEditor">
         <no-ssr>
           <mavon-editor ref="md" v-model="form.content" :ishljs="true" :codeStyle="true" codeStyle="agate" />
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       form: {
-        title: '',
+        name: '',
         content: `---
 title: 
 img: 
@@ -45,7 +45,7 @@ tags:
   },
   computed: {
     // msgF() {
-    //   return (this.form.title = this.form.title.replace(/[\\/:*?"<>|]/, ''));
+    //   return (this.form.name = this.form.name.replace(/[\\/:*?"<>|]/, ''));
     // },
   },
   mounted() {},
@@ -54,7 +54,7 @@ tags:
       evt.preventDefault();
       // var str = '---' + '\n';
       // str += 'layout: ' + $('#layout').val() + '\n';
-      // str += 'title: ' + $('#title').val() + '\n';
+      // str += 'name: ' + $('#name').val() + '\n';
       // str += 'description: ' + $('#desc').val() + '\n';
       // str += 'tags: [' + $('#tags').val() + ']\n';
       // str += 'comments: ' + $('#comments').val() + '\n';
@@ -68,7 +68,7 @@ tags:
       // JSON.stringify(obj),
       // alert(JSON.stringify(this.form));
       let file = {};
-      file.name = this.form.title.replace(/[<>,.*!:"/\\|?*]+/g, '');
+      file.name = this.form.name.replace(/[<>,.*!:"/\\|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
       this.$axios.$put('/api/add', { data: { file: file } }).then((res) => {

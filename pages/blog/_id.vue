@@ -121,7 +121,6 @@ export default {
   watch: {
     selectedTime: function (newVal, oldVal) {
       // console.log('new: %s, old: %s', newVal, oldVal);
-      this.getSelectedTime(newVal);
       // if (this.selectedTime == 'b') {
       //   this.allBlog.blogs = this.allBlog.blogs.sort((a, b) => {
       //     return a.date.localeCompare(b.date);
@@ -131,6 +130,7 @@ export default {
       //     return b.date.localeCompare(a.date);
       //   });
       // }
+      this.getSelectedTime(newVal);
     },
   },
   mounted() {},

@@ -1,11 +1,10 @@
 ---
 title: Vue中使用Moment.js格式化日期
 img: 
-categories: Vue
+categories: 前端
 tags:
   - Vue
   - Moment
-  - 日期格式化
 ---
 
 [Moment.js中文官网](http://momentjs.cn/)

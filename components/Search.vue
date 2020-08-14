@@ -38,7 +38,6 @@ export default {
   methods: {
     getData() {
       this.$axios('/api/search', { params: { searchValue: this.searchValue } }).then((res) => {
-        // console.log(res.data);
         this.searchList = res.data;
       });
     },
@@ -51,7 +50,6 @@ export default {
       }
     },
     goDetails(path) {
-      console.log(path);
       if (path == this.$route.path) {
         this.searchValue = '';
       } else {

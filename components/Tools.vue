@@ -34,7 +34,6 @@ export default {
   mounted() {},
   methods: {
     editBlog(id) {
-      console.log(id);
       this.$router.push('/blog/edit/' + id);
     },
     deleteGists(index) {
