@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="container">
-      <b-form-select v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled"></b-form-select>
+      <b-form-select v-model="selectedTime" :options="options" value-field="item" text-field="name" disabled-field="notEnabled"></b-form-select>
     </div>
     <!-- 博客列表 -->
     <b-container>
@@ -110,25 +110,27 @@ export default {
       isHovered: false,
       flag: -1,
       allBlog: {},
-      selected: 'a',
+      selectedTime: 'b',
       options: [
-        { item: 'a', name: '最新发表' },
-        { item: 'b', name: '最早发表' },
+        { item: 'b', name: '最新发表' },
+        { item: 'a', name: '最早发表' },
       ],
+      nowSort: null,
     };
   },
   watch: {
-    selected: function (newVal, oldVal) {
+    selectedTime: function (newVal, oldVal) {
       // console.log('new: %s, old: %s', newVal, oldVal);
-      if (this.selected == 'b') {
-        this.allBlog.blogs = this.allBlog.blogs.sort((a, b) => {
-          return a.date.localeCompare(b.date);
-        });
-      } else {
-        this.allBlog.blogs = this.allBlog.blogs.sort((a, b) => {
-          return b.date.localeCompare(a.date);
-        });
-      }
+      this.getSelectedTime(newVal);
+      // if (this.selectedTime == 'b') {
+      //   this.allBlog.blogs = this.allBlog.blogs.sort((a, b) => {
+      //     return a.date.localeCompare(b.date);
+      //   });
+      // } else {
+      //   this.allBlog.blogs = this.allBlog.blogs.sort((a, b) => {
+      //     return b.date.localeCompare(a.date);
+      //   });
+      // }
     },
   },
   mounted() {},
@@ -150,14 +152,21 @@ export default {
     },
     getSortList(index, path) {
       this.flag = index;
+      this.nowSort = path;
       this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
+        this.allBlog.blogs = res.data.blogs;
+        this.allBlog.pagination = res.data.pagination;
+      });
+    },
+    getSelectedTime(newVal) {
+      this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { timeOrder: newVal, path: this.nowSort } }).then((res) => {
+        console.log(res.data);
         this.allBlog.blogs = res.data.blogs;
         this.allBlog.pagination = res.data.pagination;
       });
     },
     getValue(index) {
       // index就是子组件传过来的值
-      console.log('getValue:' + index);
       this.allBlog.blogs.splice(index, 1);
     },
   },

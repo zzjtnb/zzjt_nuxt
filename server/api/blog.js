@@ -6,6 +6,7 @@ const sort = require('../utils/files/sort');
 const blog = require('../utils/files/blog');
 const paging = require('../utils/paging');
 const repeatNum = require('../utils/repeatNum');
+const timeOrder = require('../utils/timeOrder');
 var config = require("../config");
 let errMsg = { stats: 404, msg: "请求的数据不正确" }
 
@@ -93,16 +94,23 @@ app.get("/list", (req, res) => {
     json.sort = repeatNum.getRepeatNum(sorts)
     // 标签去重
     json.tags = [...new Set(json.tags)]
-    //博客排序
-    if (req.query.path) {
+    //博客分类访问
+    if (req.query.path && req.query.path != null) {
       json.blogs = json.blogs.filter((item) => {
         return item.attributes.categories == req.query.path;
       });
     }
-    //默认排序
-    json.blogs = json.blogs.sort((a, b) => {
-      return b.date.localeCompare(a.date, 'zh-Hans-CN');
-    });
+    //博客时间排序
+    switch (req.query.timeOrder) {
+      case 'a':
+        json.blogs = timeOrder.oldTime(json.blogs)
+        break;
+      case 'b':
+        json.blogs = timeOrder.newTime(json.blogs)
+        break;
+      default:
+        json.blogs = timeOrder.newTime(json.blogs)
+    }
     //分页
     json.pagination.total = json.blogs.length
     json.pagination.num = Math.ceil(json.blogs.length / Number(req.query.per_page))
