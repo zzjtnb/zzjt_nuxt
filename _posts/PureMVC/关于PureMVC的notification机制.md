@@ -1,0 +1,16 @@
+---
+title: 关于PureMVC的notification机制
+img: 
+categories: PureMVC
+tags:
+  -  PureMVC
+---
+　一个notification被send出来后，是如何被对应的接受者处理，这一过程是由observer实现的。如puremvc对observer的定位：An Observeris an object that encapsulatesinformation about an interested object with a method that should be called whena particular INotification is broadcast.
+
+
+
+　　Observer封装的是一个关联关系：即一个notification与对这个notifaction感兴趣的对象及其方法的映射。当一个notification被send时，也就是在mediator中调用sendNofification()方法时，这个方法通过多次委派最终是通过单态View所持有的oberserMap查找到这个notification对应的observer的,从而完成了对感兴趣对象的方法调用。
+
+
+
+　　在PureMVC里，对一个notifaction感兴趣的可能有两种组件：一个是command，一个是mediator.如果接收者是command,那么它是在façade初始化controller时通过registerCommand()一个个地将（notification名称：command）的键值对put到View的oberserMap中的(当然,command是被包裹成observer放进去的)。如果接收者是mediator，那么它是在façade初始化controller时通过registerMediator()将mediator与其感兴趣的notification关联起来的，这种关联和注册command一样，也是通过封装observer，然后放入oberserMap实现的。和注册comannd不同之外在于，注册mediator的过程是自动完成的，mediator只需要在其listNotificationInterests方法中返回感兴趣的notifaction名称列表，puremvc就自动把些notifaction名称和mediator自已封装成observer放入oberserMap了，不需要再像command那样手动注册了。当一个notification发出后，这个mediator的handleNotifcation()方法将被回调，因为一个mediator可能会关注多个notification,所以这个方法往往是一个switch case语句块。
