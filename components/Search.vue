@@ -102,7 +102,7 @@ input::placeholder {
 }
 .list-group-item {
   border: none;
-  border-bottom: 2px dashed white;
+  border-bottom: 2px dashed #51606b;
 }
 .list {
   max-width: 30rem;
