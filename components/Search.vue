@@ -3,7 +3,7 @@
     <b-form-input list="input-list" autocomplete="off" type="search" placeholder="输入关键字" class="searchInput" v-model="searchValue" @keyup.native.stop.passive="searchData"></b-form-input>
 
     <b-row cols="1" cols-sm="1" cols-md="2" cols-lg="12" cols-xl="12">
-      <b-list-group tag="ul" :class="{'list':!this.$store.state.common.isMoble}">
+      <b-list-group tag="ul" :class="{'list':!this.$store.state.common.isMobile}">
         <b-list-group-item flush tag="li" class="flex-column align-items-start bg-servquick text-white" v-for="(item,index) in searchList" :key="index" @click="goDetails(item.id)">
           <div class="d-flex justify-content-between">
             <h6 class="mb-1">{{item.attributes.title}}</h6>
@@ -13,7 +13,6 @@
           <small>{{item.attributes.categories}}</small>
         </b-list-group-item>
       </b-list-group>
-      <div class="searchList"></div>
     </b-row>
   </b-form>
 </template>
@@ -94,7 +93,6 @@ input::placeholder {
 }
 .list-group {
   position: absolute;
-  // width: 24rem;
   text-align: left;
   margin-top: -1px;
   z-index: 989;
@@ -102,13 +100,18 @@ input::placeholder {
   height: 40rem;
   overflow: auto;
 }
-.searchList {
-  position: relative;
-  margin: 0 auto;
-  padding: 0.2rem 0.5rem;
-  border-width: 0 0 0.1rem;
+.list-group-item {
+  border: none;
+  border-bottom: 2px dashed white;
 }
-
+.list {
+  max-width: 30rem;
+}
+li:last-child {
+  border: none;
+  // padding-bottom: 16rem;
+}
+// 滚动条
 .list-group::-webkit-scrollbar {
   width: 6px;
   height: 8px;
@@ -130,11 +133,5 @@ input::placeholder {
   height: 50px;
   background-color: #82b1ff;
   border-radius: 4px;
-}
-.list {
-  max-width: 30rem;
-}
-li:last-child {
-  padding-bottom: 16rem;
 }
 </style>

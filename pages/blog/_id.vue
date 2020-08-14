@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!allBlog.msg" style="height: 1500px;">
+  <div v-if="!allBlog.msg">
     <!-- <div>{{this.allBlog.blogs}}</div> -->
     <!-- 博客分类 -->
     <div class="container rounded shadow-lg text-center mt-3 mb-3 p-3">

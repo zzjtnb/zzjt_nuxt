@@ -1,5 +1,5 @@
 <template>
-  <div class="zzjt">
+  <div id="zzjt">
     <Header />
     <nuxt />
   </div>
@@ -32,7 +32,8 @@ export default {
 html,
 body,
 #__nuxt,
-#__layout {
+#__layout,
+#zzjt {
   width: 100%;
   height: 100%;
 }

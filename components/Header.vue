@@ -1,7 +1,12 @@
 <!--  -->
 <template>
   <header>
-    <b-navbar toggleable="lg" :fixed="this.$store.state.common.isFixed" :class="{'top-nav-collapse':top_nav_collapse,'isNotIndex':this.$route.path!='/'}" type="dark">
+    <b-navbar
+      toggleable="lg"
+      :fixed="this.$store.state.common.isFixed"
+      :class="{'top-nav-collapse':top_nav_collapse,'isNotIndex':this.$route.path!='/'}||this.$store.state.common.isMobile"
+      type="dark"
+    >
       <div class="container">
         <b-navbar-brand class="site-logo">
           <img src="../assets/images/header/logo-light.png" alt srcset />
