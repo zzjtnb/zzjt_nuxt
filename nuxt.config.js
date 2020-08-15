@@ -49,7 +49,8 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv',
+    // '@nuxtjs/dotenv',
+    '@nuxtjs/dotenv', { filename: '.env.prod' },// 指定打包时使用的dotenv
     // Doc: https://github.com/nuxt-community/style-resources-module
     "@nuxtjs/style-resources",
     // Doc: https://bootstrap-vue.js.org
