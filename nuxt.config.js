@@ -1,8 +1,19 @@
-const base = require('./api/base');
 const axios = require('axios')
+require('dotenv').config()
+// 通过process.env即可使用
+console.log(process.env.MIUI_URL)
+// if (process.env.NODE_ENV === 'development') {
+//   require('dotenv').config();
+// }
+// if (process.env.NODE_ENV !== 'production') {
+//   require('dotenv').config();
+// }
 module.exports = {
   telemetry: false,
   mode: 'universal',
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  },
   /**
     * Headers of the page
     */
@@ -50,7 +61,7 @@ module.exports = {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     // '@nuxtjs/dotenv',
-    '@nuxtjs/dotenv', { filename: '.env.prod' },// 指定打包时使用的dotenv
+    '@nuxtjs/dotenv', // 指定打包时使用的dotenv
     // Doc: https://github.com/nuxt-community/style-resources-module
     "@nuxtjs/style-resources",
     // Doc: https://bootstrap-vue.js.org
@@ -73,6 +84,29 @@ module.exports = {
     */
   axios: {
     proxy: true // Can be also an object with default options
+  },
+  proxy: {
+    '/github': {
+      target: process.env.GITHUB_URL, // 代理地址
+      changeOrigin: true,
+      pathRewrite: {
+        '^/github': '', //将 /github 替换掉
+      },
+    },
+    '/first': {
+      target: process.env.FIRST_URL,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/first': '',
+      },
+    },
+    '/miui': {
+      target: process.env.MIUI_URL,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/miui': '',
+      },
+    },
   },
   sitemap: {
     path: '/sitemap.xml', // sitemap名稱，不用改
@@ -101,23 +135,6 @@ module.exports = {
       })
     }
   },
-  proxy: {
-    '/github': {
-      target: base.base.github, // 代理地址
-      changeOrigin: true,
-      pathRewrite: {
-        '^/github': '', //将 /api 替换掉
-      },
-    },
-    'first': {
-      target: base.base.first, // 代理地址
-      changeOrigin: true,
-      pathRewrite: {
-        'first': '', //将 /api 替换掉
-      },
-    },
-  },
-
   /**
     * Build configuration
     */

@@ -1,6 +1,8 @@
 <!--  -->
 <template>
-  <div></div>
+  <div>
+    <button @click="fetchSomething">请求</button>
+  </div>
 </template>
 
 <script>
@@ -12,31 +14,30 @@ export default {
   //     test,
   //   };
   // },
-  // async asyncData({ app }) {
-  //   // const data = await app.$axios.get('/api/test');
-  //   const data = await app.$axios.get('/api/v1/data');
-  //   let test = data.data.data;
-  //   return {
-  //     test,
-  //   };
-  // },
-  // async asyncData({ app }) {
-  //   const data = await app.$axios.get('/api/blog');
-  //   let test = data.data.data;
-  //   return {
-  //     test,
-  //   };
-  // },
   data() {
     return {};
   },
-  mounted() {
-    this.fetchSomething();
-  },
+  mounted() {},
   methods: {
     async fetchSomething() {
-      const data = await this.$axios.$get('/api/sitemap');
-      // console.log(data);
+      // const data = await this.$axios.$get('/api/sitemap');
+
+      const config = {
+        headers: {
+          Referer: 'https://c.mi.com/uk/miuidownload/detail?guide=2',
+          Host: 'update.miui.com',
+        },
+
+        params: { d: 'lancelot_eea_global', b: 'F', r: 'eea', n: '' },
+      };
+      this.$axios.setHeader('Referer', 'https://c.mi.com/uk/miuidownload/detail?guide=2');
+      const data = await this.$axios
+        .$get('/miui/updates/v1/fullromdownload.php', config)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {});
+      console.log(data);
     },
   },
   components: {},

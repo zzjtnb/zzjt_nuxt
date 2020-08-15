@@ -104,7 +104,6 @@ export default {
   },
   data() {
     return {
-      token: this.$cookies.get('TOKEN_KEY'),
       title: '博客',
       imgsrc: 'https://source.unsplash.com/random/800x600?',
       isHovered: false,
