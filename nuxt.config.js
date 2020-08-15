@@ -157,7 +157,7 @@ module.exports = {
   sitemap: {
     path: '/sitemap.xml', // sitemap名稱，不用改
     hostname: 'https://zzjtnb.com/', // 網址
-    cacheTime: 1000 * 60 * 15, // 站點路由更新頻率，(15 Minutes),只在 generate: false有用
+    cacheTime: 1000 * 60 * 60 * 24, // 站點路由更新頻率，(24小时),只在 generate: false有用
     gzip: true, // 生成 .xml.gz 檔的 sitemap
     generate: true, // 允許使用 nuxt generate 生成
     // 排除不要的頁面路由
