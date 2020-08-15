@@ -3,7 +3,7 @@ const path = require('path');
 const fm = require('front-matter');
 const moment = require('moment')
 const base64 = require('js-base64').Base64;
-moment.locale('zh-cn');
+// moment.locale('zh-cn');
 // default 模式
 const md = require('markdown-it')();
 
@@ -66,8 +66,6 @@ exports.editBlog = function (data) {
   let oldPath = base64.decode(data.id)
   let newPath = oldPath.match(/.*\\/g)[0] + data.file.name.replace(/[<>,.*!:"/\\|?*]+/g, '') + '.md'
   let content = base64.decode(data.file.content)
-  console.log(oldPath);
-  console.log('newPath:' + newPath);
   if (fs.existsSync(oldPath)) {
     if (oldPath == newPath) {
       fs.writeFileSync(oldPath, content, 'utf8')
@@ -132,6 +130,17 @@ exports.lists = function (filePath) {
   blog.date = moment(stats.ctimeMs).format('YYYY-MM-DD HH:mm:ss');
 
   return blog;
+}
+exports.sitemap = function (filePath) {
+  let sitemap = {}
+  sitemap.id = base64.encodeURL(filePath)
+  let content = fm(fs.readFileSync(filePath, "utf8"));
+  sitemap.attributes = content.attributes;
+  sitemap.body = content.body.replace(/[#`\s>\[\]\n]/g, '');
+  let stats = fs.statSync(filePath);
+  // sitemap.date = moment(stats.ctimeMs).startOf('hour').fromNow();
+  sitemap.date = moment(stats.ctimeMs).format('YYYY-MM-DD HH:mm:ss');
+  return sitemap;
 }
 
 

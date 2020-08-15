@@ -84,7 +84,7 @@
 </template>
 
 <script >
-import Tools from '../../components/Tools';
+import Tools from './Tools';
 export default {
   head() {
     return {

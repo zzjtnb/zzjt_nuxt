@@ -36,7 +36,6 @@ app.put("/edit", (req, res) => {
 });
 app.get("/details", (req, res) => {
   const json = blog.singleBlog(req.query.id, req.query.flag)
-  console.log(json.stats);
   if (json.stats == 200) {
     res.status(200).json(json);
   } else {
@@ -127,6 +126,18 @@ app.get("/list", (req, res) => {
     } else {
       res.status(404).json(errMsg)
     }
+  } else {
+    res.status(404).json(errMsg)
+  }
+});
+app.get("/sitemap", (req, res) => {
+  let json = [];
+  let files = eachFile.eachDirSync(config.allList)
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      json.push(blog.sitemap(files[i]));
+    }
+    res.status(200).json(json);
   } else {
     res.status(404).json(errMsg)
   }

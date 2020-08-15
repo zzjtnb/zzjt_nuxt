@@ -1,4 +1,5 @@
 const base = require('./api/base');
+const axios = require('axios')
 module.exports = {
   telemetry: false,
   mode: 'universal',
@@ -55,6 +56,8 @@ module.exports = {
     'bootstrap-vue/nuxt',
     // Simple usage
     'cookie-universal-nuxt',
+    //https://www.npmjs.com/package/@nuxtjs/sitemap
+    '@nuxtjs/sitemap'
   ],
 
   bootstrapVue: {
@@ -63,13 +66,39 @@ module.exports = {
     componentPlugins: ['LayoutPlugin', 'NavbarPlugin', 'ButtonPlugin', 'OverlayPlugin', 'ToastPlugin', 'CardPlugin', 'PaginationNavPlugin', 'FormPlugin', 'FormGroupPlugin', 'FormInputPlugin', 'FormSelectPlugin', 'AlertPlugin', 'LinkPlugin', 'BadgePlugin', 'VBHoverPlugin', 'ModalPlugin', 'ProgressPlugin', 'ListGroupPlugin'],
     components: ['BIcon', 'BIconstack', 'BIconBookmarkFill', 'BIconCircle', 'BIconCircleFill', 'BIconTrashFill', 'BIconPencilSquare', 'BIconShareFill', 'BIconClockHistory', 'BIconClock', 'BIconChevronBarUp', 'BIconChevronBarDown', 'BIconCalendar2', 'BIconFileText']
   },
-
   /**
     * Axios module configuration
     * See https://axios.nuxtjs.org/options
     */
   axios: {
     proxy: true // Can be also an object with default options
+  },
+  sitemap: {
+    path: '/sitemap.xml', // sitemap名稱，不用改
+    // hostname: 'https://zzjtnb.com/', // 網址
+    cacheTime: 1000 * 60 * 15, // 站點路由更新頻率，只在 generate: false有用
+    gzip: true, // 生成 .xml.gz 檔的 sitemap
+    generate: true, // 允許使用 nuxt generate 生成
+    // 排除不要的頁面路由
+    exclude: [
+      '/admin/**',
+      '/blog/Tools',
+      '/user/account',
+      '/test/**',
+    ],
+    // 靜態頁面路徑
+    routes: async () => {
+      let baseURL = process.env.BASE_URL || 'http://localhost:3000';
+      const { data } = await axios.get(`${baseURL}/api/sitemap`)
+      return data.map((v) => {
+        return {
+          url: `/blog/details/${v.id}`,
+          changefreq: 'daily',// 可能變更的頻率
+          priority: 0.5, // 網頁的重要程度，0.1 - 1
+          lastmod: v.date
+        }
+      })
+    }
   },
   proxy: {
     '/github': {

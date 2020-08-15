@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-link href="/blog/add">发表博客</b-link>
+    <b-link href="/admin/blog/add">发表博客</b-link>
   </div>
 </template>
 

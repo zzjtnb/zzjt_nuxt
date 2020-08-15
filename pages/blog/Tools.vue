@@ -34,7 +34,7 @@ export default {
   mounted() {},
   methods: {
     editBlog(id) {
-      this.$router.push('/blog/edit/' + id);
+      this.$router.push('/admin/blog/edit/' + id);
     },
     deleteGists(index) {
       this.$bvModal

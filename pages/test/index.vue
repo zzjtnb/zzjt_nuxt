@@ -1,11 +1,6 @@
 <!--  -->
 <template>
-  <div>
-    <!-- <div v-html="test"></div> -->
-    <ul v-for="item in test">
-      <li>{{item}}</li>
-    </ul>
-  </div>
+  <div></div>
 </template>
 
 <script>
@@ -35,8 +30,15 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
-  methods: {},
+  mounted() {
+    this.fetchSomething();
+  },
+  methods: {
+    async fetchSomething() {
+      const data = await this.$axios.$get('/api/sitemap');
+      // console.log(data);
+    },
+  },
   components: {},
 };
 </script>
