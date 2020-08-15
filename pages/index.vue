@@ -14,7 +14,7 @@ import Vue from 'vue';
 
 export default Vue.extend({
   // async asyncData({ app, params }) {
-  //   const data = await app.$axios.get(`/api/list?page=2&per_page=6`);
+  //   const data = await app.$axios.get(`//api/blog/list?page=2&per_page=6`);
   //   let test = data.data;
   //   return {
   //     test,

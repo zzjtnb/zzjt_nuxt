@@ -71,7 +71,7 @@ tags:
       file.name = this.form.name.replace(/[<>,.*!:"/\\|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
-      this.$axios.$put('/api/add', { data: { file: file } }).then((res) => {
+      this.$axios.$put('/api/blog/add', { data: { file: file } }).then((res) => {
         if (res.stats) {
           this.$bvToast.toast(res.msg, {
             title: '提示',

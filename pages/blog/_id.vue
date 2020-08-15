@@ -93,7 +93,7 @@ export default {
   },
   async asyncData({ app, params, query, store, route, error }) {
     return await app.$axios
-      .get(`/api/list?page=${params.id}&per_page=${app.store.state.common.query.per_page}`)
+      .get(`/api/blog/list?page=${params.id}&per_page=${app.store.state.common.query.per_page}`)
       .then((res) => {
         // store.dispatch('blogs/SetBlogList', res.data);
         return { allBlog: res.data };
@@ -152,17 +152,18 @@ export default {
     getSortList(index, path) {
       this.flag = index;
       this.nowSort = path;
-      this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
+      this.$axios(`/api/blog/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { path: path } }).then((res) => {
         this.allBlog.blogs = res.data.blogs;
         this.allBlog.pagination = res.data.pagination;
       });
     },
     getSelectedTime(newVal) {
-      this.$axios(`/api/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { timeOrder: newVal, path: this.nowSort } }).then((res) => {
-        console.log(res.data);
-        this.allBlog.blogs = res.data.blogs;
-        this.allBlog.pagination = res.data.pagination;
-      });
+      this.$axios(`/api/blog/list?page=${this.$store.state.common.query.pageNum}&per_page=${this.$store.state.common.query.per_page}`, { params: { timeOrder: newVal, path: this.nowSort } }).then(
+        (res) => {
+          this.allBlog.blogs = res.data.blogs;
+          this.allBlog.pagination = res.data.pagination;
+        }
+      );
     },
     getValue(index) {
       // index就是子组件传过来的值

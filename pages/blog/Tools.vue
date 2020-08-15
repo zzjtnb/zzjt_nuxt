@@ -51,7 +51,7 @@ export default {
         })
         .then((value) => {
           if (value == true) {
-            this.$axios.$delete('/api/delete', { params: { id: this.id } }).then((res) => {
+            this.$axios.$delete('/api/blog/delete', { params: { id: this.id } }).then((res) => {
               if (res.stats == 200) {
                 this.$bvToast.toast(res.msg, {
                   title: '提示',

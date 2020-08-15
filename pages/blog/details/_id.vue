@@ -57,7 +57,7 @@
 export default {
   async asyncData({ app, params, query, store, route, error }) {
     return await app.$axios
-      .get('/api/details', { params: { id: params.id } })
+      .get('/api/blog/details', { params: { id: params.id } })
       .then((res) => {
         return { data: res.data };
       })

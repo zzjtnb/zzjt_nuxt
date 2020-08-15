@@ -27,7 +27,7 @@ export default {
     // let name = data.replace(/.*\\|\..*$/g, '');
 
     return await app.$axios
-      .$get('/api/details', { params: { id: params.id, flag: 'edit' } })
+      .$get('/api/blog/details', { params: { id: params.id, flag: 'edit' } })
       .then((res) => {
         let data = {
           name: res.name,
@@ -58,7 +58,7 @@ export default {
       file.name = this.form.name.replace(/[<>,.*!:"/\\|?*]+/g, '');
       let base64 = require('js-base64').Base64;
       file.content = base64.encode(this.form.content);
-      this.$axios.$put('/api/edit', { data: { id: this.$route.params.id, file: file } }).then((res) => {
+      this.$axios.$put('/api/blog/edit', { data: { id: this.$route.params.id, file: file } }).then((res) => {
         if (res.stats) {
           this.$bvToast.toast(res.msg, {
             title: '提示',

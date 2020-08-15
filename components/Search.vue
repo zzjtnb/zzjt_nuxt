@@ -28,7 +28,6 @@ export default {
   },
   watch: {
     searchValue: function (newVal, oldVal) {
-      // console.log('new: %s, old: %s', newVal, oldVal);
       if (this.searchValue == '') {
         this.searchList = [];
       }
@@ -37,7 +36,7 @@ export default {
   mounted() {},
   methods: {
     getData() {
-      this.$axios('/api/search', { params: { searchValue: this.searchValue } }).then((res) => {
+      this.$axios('/api/blog/search', { params: { searchValue: this.searchValue } }).then((res) => {
         this.searchList = res.data;
       });
     },

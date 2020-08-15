@@ -26,7 +26,8 @@
     "markdown-it": "^11.0.0",
     "mavon-editor": "^2.9.0",
     "moment": "^2.27.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "qs": "^6.9.4"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",

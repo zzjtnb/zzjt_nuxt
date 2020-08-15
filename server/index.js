@@ -19,8 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Require API routes
 const api = require('./api')
-// Import API Routes
-app.use('/api', api)
+
+app.use('/api/blog', api.blog)
+app.use('/api/miui', api.miui)
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')

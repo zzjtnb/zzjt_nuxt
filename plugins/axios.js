@@ -1,7 +1,14 @@
+
+// import qs from "qs";
 export default function ({ $axios, error }) {
   $axios.onRequest(config => {
-    console.log('Making request to ' + config.url)
-    console.log(config);
+    console.log(config.headers);
+    // config.data = qs.stringify(config.data, {
+    //   allowDots: true //Option allowDots can be used to enable dot notation
+    // });
+    // return config;
+    // console.log('Making request to ' + config.url)
+    // console.log(config);
   })
 
   $axios.onError(error => {

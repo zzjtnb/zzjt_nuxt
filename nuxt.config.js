@@ -1,7 +1,7 @@
 const axios = require('axios')
 require('dotenv').config()
 // 通过process.env即可使用
-console.log(process.env.MIUI_URL)
+// console.log(process.env.NODE_ENV)
 // if (process.env.NODE_ENV === 'development') {
 //   require('dotenv').config();
 // }
@@ -83,7 +83,11 @@ module.exports = {
     * See https://axios.nuxtjs.org/options
     */
   axios: {
-    proxy: true // Can be also an object with default options
+    //开发模式下开启debug
+    // debug: process.env.NODE_ENV == "production" ? false : true,
+    // Can be also an object with default options
+    proxy: true,
+    proxyHeaders: false,
   },
   proxy: {
     '/github': {
@@ -100,13 +104,14 @@ module.exports = {
         '^/first': '',
       },
     },
-    '/miui': {
-      target: process.env.MIUI_URL,
-      changeOrigin: true,
+    '/miui': {//设置跨域变量代号(当 查询带请求带有比如this.$axios.$get('/miui/xxx')就启动跨域
+      target: process.env.MIUI_URL, //你想要代理的目标源链接
+      changeOrigin: true, //开启代理
       pathRewrite: {
         '^/miui': '',
       },
     },
+
   },
   sitemap: {
     path: '/sitemap.xml', // sitemap名稱，不用改

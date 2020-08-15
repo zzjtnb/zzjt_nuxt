@@ -30,9 +30,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       // alert(JSON.stringify(this.form));
-      this.$axios({
-        url: '/github/user?access_token=' + this.form.token,
-      }).then((res) => {
+      this.$axios('/github/user?access_token=' + this.form.token).then((res) => {
         if (res.status == 200) {
           this.$cookies.set('TOKEN_KEY', this.form.token, {
             maxAge: 60 * 60 * 24,
