@@ -1,16 +1,21 @@
 <!--  -->
 <template>
-	<div>注册</div>
+  <div>注册</div>
 </template>
 
 <script >
 export default {
-	data() {
-		return {};
-	},
-	mounted() {},
-	methods: {},
-	components: {}
+  head() {
+    return {
+      title: '注册',
+    };
+  },
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {},
+  components: {},
 };
 </script>
 

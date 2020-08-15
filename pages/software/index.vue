@@ -4,6 +4,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: '软件',
+    };
+  },
   // async asyncData({ app }) {
   //   const { data } = await app.$axios.$get('/miui/updates/v1/fullromdownload.php', {
   //     headers: {},

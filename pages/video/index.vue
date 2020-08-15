@@ -1,16 +1,21 @@
 <!--  -->
 <template>
-	<div>视频</div>
+  <div>视频</div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {};
-	},
-	mounted() {},
-	methods: {},
-	components: {}
+  head() {
+    return {
+      title: '视频',
+    };
+  },
+  data() {
+    return {};
+  },
+  mounted() {},
+  methods: {},
+  components: {},
 };
 </script>
 

@@ -11,8 +11,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-
 export default Vue.extend({
+  head() {
+    return {
+      title: '首页',
+    };
+  },
   // async asyncData({ app, params }) {
   //   const data = await app.$axios.get(`//api/blog/list?page=2&per_page=6`);
   //   let test = data.data;
